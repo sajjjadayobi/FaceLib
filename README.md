@@ -1,1 +1,9 @@
 # FaceNet
+
+## Detections
+
+
+## Alignment
+
+
+## recognition
