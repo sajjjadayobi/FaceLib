@@ -4,11 +4,13 @@
  you can use this backbone networks:
     Resnet50, mobilenet, slim, RFB
  
-.. code:: python
+ The following example illustrates the ease of use of this package:
 
-    >>> from Retinaface import FaceDetector
-    >>> detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
-    >>> boxes, scores, landmarks = detector.detect_faces(your_image)
+  ```python
+   from Retinaface import FaceDetector
+   detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
+   boxes, scores, landmarks = detector.detect_faces(your_image)
+  ``` 
 
 
 ## Alignment: similarity transform
