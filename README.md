@@ -32,8 +32,7 @@ when Retinaface The official code in Mxnet can be found here.
 Original | Aligned & Resized |
 |---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|
-![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|
-|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|
+![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)||![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
 
