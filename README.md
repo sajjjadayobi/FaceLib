@@ -1,4 +1,4 @@
-# FaceLib : Face Detection and Facial Expression Recognition and Age & Gender Classification and Face Recognition with pytorch
+# FaceLib : Detection and Facial Expression and Age & Gender and  Recognition with pytorch
 
 ## Face Detection: RetinaFace
 
