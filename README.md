@@ -1,6 +1,6 @@
-# FaceLib : Face Detection and Face Recognition with pytorch
+# FaceLib : Face Detection and Facial Expression Recognition and Age & Gender Classification and Face Recognition with pytorch
 
-## Detection: RetinaFace
+## Face Detection: RetinaFace
 
 A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild. Model size only 1.7M, 
 when Retinaface The official code in Mxnet can be found here.
@@ -38,6 +38,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
+## Age & Gender Classification:
+- very soon will be completed
 
 ## Facial Expression Recognition:
 
@@ -45,11 +47,19 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    from FaceExpression import EmotionDetector
    from Retinaface import FaceDetector
    
-   face_detector = FaceDetector(name='mobilenet', weight_path='retinaface/weights/mobilenet.pth', device='cuda')
+   face_detector = FaceDetector(name='mobilenet', weight_path='weights/mobilenet.pth', device='cuda')
    emotion_detector = EmotionDetector(name='resnet34', weight_path='weights/resnet34.pth', device='cuda')
    
    faces, boxes, scores, landmarks = face_detector.detect_align(frame)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
   ```
 
-## Recognition
+## Face Recognition
+- very soon will be completed
+
+
+## Citation
+- Author = Sajjad Ayoubi
+- Title = FaceLib
+- url = https://github.com/sajjjadayobi/FaceLib/
+- Year = 2020
