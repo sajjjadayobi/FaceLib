@@ -39,4 +39,17 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
 
+## Facial Expression Recognition:
+
+  ```python
+   from FaceExpression import EmotionDetector
+   from Retinaface import FaceDetector
+   
+   face_detector = FaceDetector(name='mobilenet', weight_path='retinaface/weights/mobilenet.pth', device='cuda')
+   emotion_detector = EmotionDetector(name='resnet34', weight_path='weights/resnet34.pth', device='cuda')
+   
+   faces, boxes, scores, landmarks = face_detector.detect_align(frame)
+   list_of_emotions, probab = emotion_detector.detect_emotion(faces)
+  ```
+
 ## Recognition
