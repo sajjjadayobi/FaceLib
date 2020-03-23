@@ -17,7 +17,8 @@
   ```
   
 ## WiderFace Validation Performance in single scale When using Mobilenet
-| Style | easy | medium | hard ||:-|:-:|:-:|:-:|
+| Style | easy | medium | hard |
+|:-|:-:|:-:|:-:|
 | Pytorch (same parameter with Mxnet) | 88.67% | 87.09% | 80.99% |
 | Pytorch (original image scale) | 90.70% | 88.16% | 73.82% |
 | Mxnet | 88.72% | 86.97% | 79.19% |
