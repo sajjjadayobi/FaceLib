@@ -8,8 +8,8 @@
      Resnet50, mobilenet, slim, RFB
  
  
+ 
  The following example illustrates the ease of use of this package:
-
   ```python
    from Retinaface import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
@@ -35,8 +35,8 @@
    faces, boxes, scores, landmarks = detector.detect_align(frame)
   ```
 
-- let us see a few examples
 
+- let us see a few examples
 Original | Aligned & Resized | Original | Aligned & Resized ||---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
@@ -50,10 +50,9 @@ Original | Aligned & Resized | Original | Aligned & Resized ||---|---|---|---|
 ## Facial Expression Recognition: using Residual Masking Network
 - you can use this backbone networks:
     Resnet34, mobilenet, densnet121
-    
+  
     
  The following example illustrates the ease of use of this package:
- 
   ```python
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
