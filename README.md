@@ -60,7 +60,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 
 ## Citation
-- :author:Author = Sajjad Ayoubi
+- :write:Author = Sajjad Ayoubi
 - :fire:Title = FaceLib
-- :website: = (https://github.com/sajjjadayobi/FaceLib/)[HomePage]
-- :date: = 2020
+- :website: = ![HomePage](https://github.com/sajjjadayobi/FaceLib/)
+- :time: = 2020
