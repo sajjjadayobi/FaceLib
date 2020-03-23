@@ -37,9 +37,9 @@
 
 
 - let us see a few examples
-Original | Aligned & Resized | Original | Aligned & Resized ||---|---|---|---|
+Original | Aligned & Resized | Original | Aligned & Resized |
+|---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
-
 
 
 ## Age & Gender Classification:
