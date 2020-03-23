@@ -1,5 +1,6 @@
 # FaceLib : Detection and Facial Expression and Age & Gender and  Recognition with pytorch
 
+
 ## Face Detection: RetinaFace
 
 - A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild
@@ -16,12 +17,12 @@
   ```
   
 ## WiderFace Validation Performance in single scale When using Mobilenet
-| Style | easy | medium | hard |
-|:-|:-:|:-:|:-:|
+| Style | easy | medium | hard ||:-|:-:|:-:|:-:|
 | Pytorch (same parameter with Mxnet) | 88.67% | 87.09% | 80.99% |
 | Pytorch (original image scale) | 90.70% | 88.16% | 73.82% |
 | Mxnet | 88.72% | 86.97% | 79.19% |
 | Mxnet(original image scale) | 89.58% | 87.11% | 69.12% |
+
 
 
 ## Image Alignment: similar transformation
@@ -34,14 +35,15 @@
   ```
 
 - let us see a few examples
-Original | Aligned & Resized | Original | Aligned & Resized |
-|---|---|---|---|
+
+Original | Aligned & Resized | Original | Aligned & Resized ||---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
 
 
 ## Age & Gender Classification:
 - very soon will be completed
+
 
 
 ## Facial Expression Recognition: using Residual Masking Network
@@ -55,8 +57,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
    
-   face_detector = FaceDetector(name='mobilenet', weight_path='weights/mobilenet.pth', device='cuda')
-   emotion_detector = EmotionDetector(name='resnet34', weight_path='weights/resnet34.pth', device='cuda')
+   face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
+   emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
    
    faces, boxes, scores, landmarks = face_detector.detect_align(frame)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
@@ -74,4 +76,4 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - :raising_hand: : Sajjad Ayoubi
 - :fire: : FaceLib
 - :muscle: Website : [HomePage](https://github.com/sajjjadayobi/FaceLib/)
-- :watch: = 2020
+- :watch: : 2020
