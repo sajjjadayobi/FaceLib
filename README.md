@@ -2,11 +2,9 @@
 
 ## Face Detection: RetinaFace
 
-A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild. Model size only 1.7M, 
-when Retinaface The official code in Mxnet can be found here.
-
- you can use this backbone networks:
-    Resnet50, mobilenet, slim, RFB
+- A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild
+ - you can use this backbone networks:
+     Resnet50, mobilenet, slim, RFB
  
  The following example illustrates the ease of use of this package:
 
@@ -41,8 +39,12 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 ## Age & Gender Classification:
 - very soon will be completed
 
-## Facial Expression Recognition:
-
+## Facial Expression Recognition: using Residual Masking Network
+- you can use this backbone networks:
+    Resnet34, mobilenet, densnet121
+    
+ The following example illustrates the ease of use of this package:
+ 
   ```python
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
@@ -60,7 +62,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 
 ## Citation
-- :write:Author = Sajjad Ayoubi
-- :fire:Title = FaceLib
-- :website: = ![HomePage](https://github.com/sajjjadayobi/FaceLib/)
-- :time: = 2020
+- :raising_hand: : Sajjad Ayoubi
+- :fire: : FaceLib
+- :website: Website : [HomePage](https://github.com/sajjjadayobi/FaceLib/)
+- :watch: = 2020
