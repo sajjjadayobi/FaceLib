@@ -6,6 +6,7 @@
  - you can use this backbone networks:
      Resnet50, mobilenet, slim, RFB
  
+ 
  The following example illustrates the ease of use of this package:
 
   ```python
@@ -25,23 +26,28 @@
 
 ## Image Alignment: similar transformation
 
+
   ```python
    from Retinaface import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
    faces, boxes, scores, landmarks = detector.detect_align(frame)
   ```
-- let us see a few examples
 
+- let us see a few examples
 Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
+
+
 ## Age & Gender Classification:
 - very soon will be completed
+
 
 ## Facial Expression Recognition: using Residual Masking Network
 - you can use this backbone networks:
     Resnet34, mobilenet, densnet121
+    
     
  The following example illustrates the ease of use of this package:
  
@@ -55,8 +61,11 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    faces, boxes, scores, landmarks = face_detector.detect_align(frame)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
   ```
+ 
 - like this image:
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
+
+
 ## Face Recognition
 - very soon will be completed
 
@@ -64,5 +73,5 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 ## Citation
 - :raising_hand: : Sajjad Ayoubi
 - :fire: : FaceLib
-- :website: Website : [HomePage](https://github.com/sajjjadayobi/FaceLib/)
+- :muscle: Website : [HomePage](https://github.com/sajjjadayobi/FaceLib/)
 - :watch: = 2020
