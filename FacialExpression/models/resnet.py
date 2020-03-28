@@ -251,7 +251,7 @@ def resnet34(pretrained=False, progress=True, **kwargs):
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     model = _resnet('resnet34', BasicBlock, [3, 4, 6, 3], pretrained, progress,**kwargs)
-    model.fc = nn.Linear(512, kwargs['num_classes'])
+    model.fc = nn.Linear(512, 7)
     return model
 
 

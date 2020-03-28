@@ -105,7 +105,7 @@ class DenseNet(nn.Module):
           but slower. Default: *False*. See `"paper" <https://arxiv.org/pdf/1707.06990.pdf>`_
     """
 
-    def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16),
+    def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16), #in_channels=3, num_classes=7,
                  num_init_features=64, bn_size=4, drop_rate=0, memory_efficient=False):
 
         super(DenseNet, self).__init__()
@@ -183,8 +183,7 @@ def _load_state_dict(model, model_url, progress):
     model.load_state_dict(state_dict)
 
 
-def _densenet(arch, growth_rate, block_config, num_init_features, pretrained, progress,
-              **kwargs):
+def _densenet(arch, growth_rate, block_config, num_init_features, pretrained, progress, **kwargs):
     model = DenseNet(growth_rate, block_config, num_init_features, **kwargs)
     if pretrained:
         _load_state_dict(model, model_urls[arch], progress)

@@ -39,7 +39,7 @@ class FaceDetector:
             cfg = cfg_rfb
             model = RFB(cfg=cfg_rfb, phase='test')
         else:
-            exit('Exit: model not support')
+            exit('from FaceDetector Exit: model not support \n just(mobilenet, resnet, slim, rfb)')
 
         # setting for model
         model.load_state_dict(torch.load(weight_path))
@@ -71,19 +71,19 @@ class FaceDetector:
 
     def detect_faces(self, img_raw):
         """
-        get a image from cv2, detect faces in image
+        get a image from ndarray, detect faces in image
         Args:
-            img_raw: original image from cv2 BGR
+            img_raw: original image from cv2(BGR) or PIL(RGB)
         Notes:
             coordinate is corresponding to original image
-
+            and type of return image is corresponding to input(cv2, PIL)
         Returns:
-            wrapped:
-                a list of faces that aligned
             boxes:
-                face bounding box for each face
+                faces bounding box for each face
+            scores:
+                percentage of each face
             landmarks:
-                face landmarks for each face
+                faces landmarks for each face
         """
 
         img, scale = self.preprocessor(img_raw)
@@ -130,17 +130,17 @@ class FaceDetector:
 
     def detect_align(self, img):
         """
-        get a image from cv2, detect face in image,
+        get a image from ndarray, detect faces in image,
         cropped face and align face
-
         Args:
-            img: original image from cv2 BGR
+            img: original image from cv2(BGR) or PIL(RGB)
         Notes:
             coordinate is corresponding to original image
+            and type of return image is corresponding to input(cv2, PIL)
 
         Returns:
-            wrapped:
-                a list of faces that aligned
+            faces:
+                a tensor(n, 224, 224, 3) of faces that aligned
             boxes:
                 face bounding box for each face
             landmarks:
@@ -167,4 +167,4 @@ class FaceDetector:
             warped.append(face_img)
 
         faces = torch.tensor(warped).to(self.device)
-        return faces, boxes, scores, landmarks  # BGR
+        return faces, boxes, scores, landmarks

@@ -25,11 +25,11 @@ class EmotionDetector:
         self.device = device
         self.model = None
         if name == 'resnet34':
-            self.model = resnet34(in_channels=3, num_classes=7)
+            self.model = resnet34()
         elif name == 'densnet121':
-            self.model = densenet121(in_channels=3, num_classes=7)
+            self.model = densenet121()
         else:
-            exit('Network does not support!!')
+            exit('EmotionDetector: Network does not support!! \n just(resnet34, densnet121)')
 
         self.model.load_state_dict(torch.load(weight_path))
         self.model.to(device).eval()
