@@ -4,17 +4,16 @@ import torchvision.models as models
 import time
 import sys
 
-
 mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
 sz = 112
 
 
-class ShufflenetV2(nn.Module):
+class ShuffleneTiny(nn.Module):
 
     def __init__(self):
-        super(ShufflenetV2, self).__init__()
-        self.model = models.shufflenet_v2_x0_5(pretrained=False)
+        super(ShuffleneTiny, self).__init__()
+        self.model = models.shufflenet_v2_x0_5()
         self.model.fc = nn.Sequential(
             nn.BatchNorm1d(1024),
             nn.Linear(1024, 3))
@@ -23,7 +22,20 @@ class ShufflenetV2(nn.Module):
         return self.model(x)
 
 
-class TrainModel():
+class ShuffleneFull(nn.Module):
+
+    def __init__(self):
+        super(ShuffleneFull, self).__init__()
+        self.model = models.shufflenet_v2_x1_0()
+        self.model.fc = nn.Sequential(
+            nn.BatchNorm1d(1024),
+            nn.Linear(1024, 3))
+
+    def forward(self, x):
+        return self.model(x)
+
+
+class TrainModel:
 
     def __init__(self, model, train_dl, valid_dl, optimizer, certrion, scheduler, num_epochs):
 
@@ -120,7 +132,6 @@ class TrainModel():
 
         sys.stdout.flush()
         return torch.tensor([acc_gender, loss_age]) / N
-
 
 
 def accuracy_gender(input, targs):

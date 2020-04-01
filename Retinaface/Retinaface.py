@@ -14,7 +14,7 @@ from .models.slim import Slim
 class FaceDetector:
 
     def __init__(self, name, weight_path, device='cpu', confidence_threshold=0.99,
-                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(224, 224), face_padding=0.1):
+                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112)):
         """
         RetinaFace Detector with 5points landmarks
         Args:
@@ -55,10 +55,8 @@ class FaceDetector:
         # setting for face align
         self.trans = transform.SimilarityTransform()
         self.out_size = face_size
-        self.ref_pts = get_reference_facial_points(output_size=face_size,
-                                                   inner_padding_factor=face_padding,
-                                                   outer_padding=(0, 0),
-                                                   default_square=True)
+        self.ref_pts = get_reference_facial_points(output_size=face_size)
+        print('from FaceDetector: weights loaded')
         return
 
     def preprocessor(self, img_raw):
@@ -67,7 +65,6 @@ class FaceDetector:
         img -= torch.tensor([104, 117, 123]).to(self.device)
         img = img.permute(2, 0, 1).unsqueeze(0)
         return img, scale
-
 
     def detect_faces(self, img_raw):
         """
@@ -127,7 +124,6 @@ class FaceDetector:
 
         return boxes, scores, landmarks
 
-
     def detect_align(self, img):
         """
         get a image from ndarray, detect faces in image,
@@ -140,29 +136,26 @@ class FaceDetector:
 
         Returns:
             faces:
-                a tensor(n, 224, 224, 3) of faces that aligned
+                a tensor(n, 112, 112, 3) of faces that aligned
             boxes:
                 face bounding box for each face
             landmarks:
                 face landmarks for each face
         """
         boxes, scores, landmarks = self.detect_faces(img)
-        landmarks = landmarks.to('cpu')
 
         warped = []
-        for landmark in landmarks:
-            src_pts = np.float32(landmark)
-            src_pts_shp = src_pts.shape
-            if max(src_pts_shp) < 3 or min(src_pts_shp) != 2:
+        for src_pts in landmarks:
+            if max(src_pts.shape) < 3 or min(src_pts.shape) != 2:
                 raise FaceWarpException('facial_pts.shape must be (K,2) or (2,K) and K>2')
 
-            if src_pts_shp[0] == 2:
+            if src_pts.shape[0] == 2:
                 src_pts = src_pts.T
 
             if src_pts.shape != self.ref_pts.shape:
                 raise FaceWarpException('facial_pts and reference_pts must have the same shape')
 
-            self.trans.estimate(src_pts, self.ref_pts)
+            self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
             face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
             warped.append(face_img)
 

@@ -2,7 +2,7 @@ import cv2
 from time import time
 from Retinaface.Retinaface import FaceDetector
 
-detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device='cpu', face_size=(224, 224))
+detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device='cuda', face_size=(224, 224))
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 1280)

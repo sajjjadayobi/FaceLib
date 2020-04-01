@@ -15,7 +15,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader, Dataset
 import torchvision.transforms as transforms
-from AgeGender.models.model import ShufflenetV2, TrainModel
+from AgeGender.models.model import ShuffleneFull, TrainModel
 
 
 class MultitaskDataset(Dataset):
@@ -77,7 +77,7 @@ def multitask_loss(input, target):
     return loss_gender / (.16) + loss_age * 2
 
 
-model = ShufflenetV2().cuda()
+model = ShuffleneFull().cuda()
 optimizer = optim.Adam(params=model.parameters(), lr=0.001, weight_decay=0.001)
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.9)
 history = TrainModel(model, train_dl, valid_dl, optimizer, multitask_loss, scheduler, 5)

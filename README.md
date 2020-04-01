@@ -1,19 +1,19 @@
 # FaceLib : Detection and Facial Expression and Age & Gender and  Recognition with pytorch
 
-
 ## Face Detection: RetinaFace
 
-- A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild
- - you can use this backbone networks:
-     Resnet50, mobilenet, slim, RFB
- 
- 
+A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild. Model size only 1.7M, 
+when Retinaface The official code in Mxnet can be found here.
+
+ you can use this backbone networks:
+    Resnet50, mobilenet, slim, RFB
  
  The following example illustrates the ease of use of this package:
+
   ```python
-   from Retinaface import FaceDetector
+   from Retinaface.Retinaface import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
-   boxes, scores, landmarks = detector.detect_faces(your_image)
+   boxes, scores, landmarks = detector.detect_faces(image)
   ```
   
 ## WiderFace Validation Performance in single scale When using Mobilenet
@@ -25,56 +25,53 @@
 | Mxnet(original image scale) | 89.58% | 87.11% | 69.12% |
 
 
-
 ## Image Alignment: similar transformation
 
-
   ```python
-   from Retinaface import FaceDetector
+   from Retinaface.Retinaface import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
-   faces, boxes, scores, landmarks = detector.detect_align(frame)
+   faces, boxes, scores, landmarks = detector.detect_align(image)
   ```
-
-
 - let us see a few examples
 
 Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
 
-
 ## Age & Gender Classification:
-- very soon will be completed
+- I use UTKFace DataSet for Age & Gender
+   
+ ```python
+    from Retinaface.Retinaface import FaceDetector
+    from AgeGender.Detector import AgeGender
+     
+    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
+    age_gender_detector = AgeGender(name='full', weight_path='ShufflenetFull.pth', device='cuda')
 
-
-
-## Facial Expression Recognition: using Residual Masking Network
-- you can use this backbone networks:
-    Resnet34, mobilenet, densnet121
-  
-    
- The following example illustrates the ease of use of this package:
-  ```python
+    faces, boxes, scores, landmarks = face_detector.detect_align(image)
+    genders, ages = age_gender_detector.detect(faces)
+  ```
+## Facial Expression Recognition:
+- face must be (224, 224)
+ 
+ ```python
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
    
    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
    emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
    
-   faces, boxes, scores, landmarks = face_detector.detect_align(frame)
+   faces, boxes, scores, landmarks = face_detector.detect_align(image)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
   ```
- 
 - like this image:
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
-
-
 ## Face Recognition
 - very soon will be completed
 
 
 ## Citation
-- :raising_hand: : Sajjad Ayoubi
-- :fire: : FaceLib
-- :muscle: Website : [HomePage](https://github.com/sajjjadayobi/FaceLib/)
-- :watch: : 2020
+- Author = Sajjad Ayoubi
+- Title = FaceLib
+- url = https://github.com/sajjjadayobi/FaceLib/
+- Year = 2020

@@ -1,11 +1,13 @@
-from AgeGender.models.model import ShufflenetV2
+from AgeGender.models.model import ShuffleneTiny, ShuffleneFull
 import torch
+
 
 class AgeGender:
 
-    def __init__(self, weight_path, device):
+    def __init__(self, name, weight_path, device):
         """
         Age and gender Detector
+        :param name: name of backbone (full or tiny)
         :param device: model run in cpu or gpu (cuda, cpu)
         :param weight_path: path of network weight
 
@@ -16,7 +18,13 @@ class AgeGender:
                 :param faces: 4d tensor of face for example size(1, 3, 112, 112)
                 :returns genders list and ages list
         """
-        model = ShufflenetV2()
+        if name == 'tiny':
+            model = ShuffleneTiny()
+        elif name == 'full':
+            model = ShuffleneFull()
+        else:
+            exit('from AgeGender Detector: model dose not support just(tiny, full)')
+
         model.load_state_dict(torch.load(weight_path))
         model.to(device).eval()
         self.model = model
