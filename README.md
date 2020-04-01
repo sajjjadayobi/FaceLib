@@ -2,13 +2,8 @@
 
 ## Face Detection: RetinaFace
 
-A PyTorch implementation of RetinaFace: Single-stage Dense Face Localisation in the Wild. Model size only 1.7M, 
-when Retinaface The official code in Mxnet can be found here.
-
- you can use this backbone networks:
-    Resnet50, mobilenet, slim, RFB
- 
- The following example illustrates the ease of use of this package:
+ - you can use this backbone networks: Resnet50, mobilenet, slim, RFB
+ - The following example illustrates the ease of use of this package:
 
   ```python
    from Retinaface.Retinaface import FaceDetector
@@ -71,7 +66,6 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 
 ## Citation
-- Author = Sajjad Ayoubi
-- Title = FaceLib
-- url = https://github.com/sajjjadayobi/FaceLib/
+- Author : Sajjad Ayoubi
+- Title : FaceLib
 - Year = 2020
