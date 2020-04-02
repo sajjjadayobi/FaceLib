@@ -38,7 +38,7 @@ def get_config(training=True):
     # --------------------Inference Config ------------------------
     else:
         conf.facebank_path = conf.data_path / 'facebank'
-        conf.threshold = 1.4
+        conf.threshold = 1.5
         conf.face_limit = 10
         # when inference, at maximum detect 10 faces in one image, my laptop is slow
     return conf

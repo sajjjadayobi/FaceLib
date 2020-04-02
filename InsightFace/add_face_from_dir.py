@@ -4,7 +4,7 @@ from Retinaface.Retinaface import FaceDetector
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description='take a picture')
-parser.add_argument('--path', '-p', default='unknown', type=str,help='path of dir of person images')
+parser.add_argument('--path', '-p', default='unknown', type=str, help='path of dir of person images')
 args = parser.parse_args()
 print('only a face in each image and all image from the same person')
 
@@ -17,7 +17,7 @@ if not save_path.exists():
     save_path.mkdir()
 
 # init detector
-detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device='cuda', face_size=(112, 112))
+detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device='cuda')
 
 counter = 0
 for img_path in dir_path.iterdir():

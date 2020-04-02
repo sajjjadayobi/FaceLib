@@ -5,7 +5,7 @@ import torch
 from torch import optim
 import numpy as np
 from tqdm import tqdm
-from utils import get_time, gen_plot, hflip_batch, separate_bn_paras
+from utils import get_time, gen_plot, separate_bn_paras
 from utils import faces_preprocessing
 from PIL import Image
 from torchvision import transforms as trans
@@ -87,7 +87,7 @@ class face_learner:
             while idx + conf.batch_size <= len(carray):
                 batch = torch.tensor(carray[idx:idx + conf.batch_size])
                 if tta:
-                    fliped = hflip_batch(batch)
+                    fliped = batch.flip(-1)  # I do not test in this case
                     emb_batch = self.model(batch.to(conf.device)) + self.model(fliped.to(conf.device))
                     embeddings[idx:idx + conf.batch_size] = l2_norm(emb_batch)
                 else:
@@ -96,7 +96,7 @@ class face_learner:
             if idx < len(carray):
                 batch = torch.tensor(carray[idx:])
                 if tta:
-                    fliped = hflip_batch(batch)
+                    fliped = batch.flip(-1)
                     emb_batch = self.model(batch.to(conf.device)) + self.model(fliped.to(conf.device))
                     embeddings[idx:] = l2_norm(emb_batch)
                 else:
@@ -221,6 +221,7 @@ class face_learner:
 
         diff = embs.unsqueeze(-1) - target_embs.transpose(1, 0).unsqueeze(0)
         dist = torch.sum(torch.pow(diff, 2), dim=1)
+        print(dist.item())
         minimum, min_idx = torch.min(dist, dim=1)
         min_idx[minimum > self.threshold] = -1  # if no match, set idx to -1
         return min_idx, minimum
