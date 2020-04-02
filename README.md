@@ -107,6 +107,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     for idx, bbox in enumerate(boxes):
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
+- example of run this code:
+![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/face_rec.jpg)
 
 ## Reference:
 - [InsightFace](https://github.com/TreB1eN/InsightFace_Pytorch)
