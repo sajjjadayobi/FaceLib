@@ -12,12 +12,11 @@
   ```
  - downlaod weight from drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
   
-## WiderFace Validation Performance in single scale When using Mobilenet
+#### WiderFace Validation Performance in single scale When using Mobilenet
 | Style | easy | medium | hard |
 |:-|:-:|:-:|:-:|
 | Pytorch (same parameter with Mxnet) | 88.67% | 87.09% | 80.99% |
 | Pytorch (original image scale) | 90.70% | 88.16% | 73.82% |
-| Mxnet | 88.72% | 86.97% | 79.19% |
 | Mxnet(original image scale) | 89.58% | 87.11% | 69.12% |
 
 
@@ -36,7 +35,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 ## Age & Gender Classification:
 - I use UTKFace DataSet for Age & Gender
-   
+- you can use this backbone networks: full, tiny
+
  ```python
     from Retinaface.Retinaface import FaceDetector
     from AgeGender.Detector import AgeGender
@@ -47,7 +47,10 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     faces, boxes, scores, landmarks = face_detector.detect_align(image)
     genders, ages = age_gender_detector.detect(faces)
   ```
+ - downlaod weight from drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
+ 
 ## Facial Expression Recognition:
+- using Residual Masking Network
 - face must be (224, 224)
  
  ```python
@@ -60,6 +63,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    faces, boxes, scores, landmarks = face_detector.detect_align(image)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
   ```
+- downlaod weight from drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
 - like this image:
 
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
@@ -78,6 +82,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
                 ---> img_1.jpg
                 ---> img_2.jpg
     ```
+    
+-  downlaod weight from drive [InsightFace](https://drive.google.com/open?id=1vHRseSFfqKZrrcSTfPf3wX0a0Y_ipKPR)
 - you can use this repo like this for camera verification:
 
 ```
@@ -109,6 +115,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     for idx, bbox in enumerate(boxes):
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
+
 - example of run this code:
 
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/face_rec.jpg)
