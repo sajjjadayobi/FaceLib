@@ -10,6 +10,7 @@
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
+ - downlaod weight from drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
   
 ## WiderFace Validation Performance in single scale When using Mobilenet
 | Style | easy | medium | hard |
@@ -60,6 +61,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
   ```
 - like this image:
+
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
 
 ## Face Recognition: InsightFace
@@ -108,6 +110,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
 - example of run this code:
+
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/face_rec.jpg)
 
 ## Reference:
