@@ -1,0 +1,8 @@
+torch==0.4.0
+numpy==1.14.5
+matplotlib==2.1.2
+tqdm==4.23.4
+bcolz==1.2.1
+easydict==1.7
+opencv_python==3.4.0.12
+torchvision==0.2.1
