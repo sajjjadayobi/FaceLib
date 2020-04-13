@@ -13,7 +13,7 @@
   - Torchvision 0.4.0+
     - OpenCV 2.0+
   - requirements.txt
-<br>
+</br>
 ## 1. Face Detection: RetinaFace
 
  - you can use these backbone networks: Resnet50, mobilenet, slim, RFB
@@ -36,7 +36,7 @@
 | Pytorch (original image scale) | 90.70% | 88.16% | 73.82% |
 | Mxnet(original image scale) | 89.58% | 87.11% | 69.12% |
 
-<br>
+
 ## 2. Face Alignment: Similar Transformation
 - you can use this module like this:
 
@@ -56,7 +56,8 @@
 Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
-<br>
+
+
 ## 3. Age & Gender Estimation:
 - I used UTKFace DataSet for Age & Gender Estimation
 - you can use these backbone networks: full, tiny
@@ -79,7 +80,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
  
  - downlaod weight of network from google drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
  
-<br>
+
+
 ## 4. Facial Expression Recognition:
 - Facial Expression Recognition using Residual Masking Network
 - face size must be (224, 224), you can fix it in FaceDetector init function with face_size=(224, 224)
@@ -103,6 +105,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - like this image:
 
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
+
 
 ## 5. Face Recognition: InsightFace
 - This module is a reimplementation of Arcface(paper), or Insightface(Github)
@@ -146,7 +149,6 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
   - u argument: update FaceBank if add a new person
   - m argument: use Mobilenet for backbone
-<br><br>
 
 
 
