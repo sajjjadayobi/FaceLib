@@ -13,7 +13,8 @@
   - Torchvision 0.4.0+
     - OpenCV 2.0+
   - requirements.txt
-</br>
+  
+  
 ## 1. Face Detection: RetinaFace
 
  - you can use these backbone networks: Resnet50, mobilenet, slim, RFB
