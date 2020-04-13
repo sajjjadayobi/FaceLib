@@ -1,8 +1,23 @@
-# FaceLib : Detection and Facial Expression and Age & Gender and  Recognition with pytorch
+# [FaceLib](https://github.com/sajjjadayobi/FaceLib):
+- use for Detection, Facial Expression, Age & Gender Estimation and  Recognition with PyTorch
+- this repository works with CPU and GPU(Cuda)
 
-## Face Detection: RetinaFace
 
- - you can use this backbone networks: Resnet50, mobilenet, slim, RFB
+## Installation
+- Clone and install with this command: 
+  
+    ```https://github.com/sajjjadayobi/FaceLib.git```
+- Prerequisites
+  - Python 3.6+
+    - PyTorch 1.4+
+  - Torchvision 0.4.0+
+    - OpenCV 2.0+
+  - requirements.txt
+<br>
+## 1. Face Detection: RetinaFace
+
+ - you can use these backbone networks: Resnet50, mobilenet, slim, RFB
+ - for more details, you can use the documentation
  - The following example illustrates the ease of use of this package:
 
   ```python
@@ -10,32 +25,42 @@
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
- - downlaod weight from drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
+ - downlaod weight of network from google drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
+ - you can cheche code and change it [Face Detector]()
+ - based on this repository [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
   
-#### WiderFace Validation Performance in single scale When using Mobilenet
+#### WiderFace Validation Performance on a single scale When using Mobilenet for backbone
 | Style | easy | medium | hard |
 |:-|:-:|:-:|:-:|
 | Pytorch (same parameter with Mxnet) | 88.67% | 87.09% | 80.99% |
 | Pytorch (original image scale) | 90.70% | 88.16% | 73.82% |
 | Mxnet(original image scale) | 89.58% | 87.11% | 69.12% |
 
-
-## Image Alignment: similar transformation
+<br>
+## 2. Face Alignment: Similar Transformation
+- you can use this module like this:
 
   ```python
    from Retinaface.Retinaface import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
    faces, boxes, scores, landmarks = detector.detect_align(image)
   ```
-- let us see a few examples
+- or run on webcam and shows the result on the image
+  
+    ```python Retinaface/from_camera.py``` 
+    
+- detect_image() instead detect_faces()
+- for more details read detect_image function documentation
+- let's see a few examples
 
 Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
 |![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
-
-## Age & Gender Classification:
-- I use UTKFace DataSet for Age & Gender
-- you can use this backbone networks: full, tiny
+<br>
+## 3. Age & Gender Estimation:
+- I used UTKFace DataSet for Age & Gender Estimation
+- you can use these backbone networks: full, tiny
+- you can use this module like this:
 
  ```python
     from Retinaface.Retinaface import FaceDetector
@@ -46,34 +71,59 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
     faces, boxes, scores, landmarks = face_detector.detect_align(image)
     genders, ages = age_gender_detector.detect(faces)
+    print(genders, ages)
   ```
- - downlaod weight from drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
+ - or run on webcam and shows the result on the image
+  
+    ```python AgeGender/from_camera.py``` 
  
-## Facial Expression Recognition:
-- using Residual Masking Network
-- face must be (224, 224)
+ - downlaod weight of network from google drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
+ 
+<br>
+## 4. Facial Expression Recognition:
+- Facial Expression Recognition using Residual Masking Network
+- face size must be (224, 224), you can fix it in FaceDetector init function with face_size=(224, 224)
  
  ```python
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
    
-   face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
+   face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', face_size=(224, 224))
    emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
    
    faces, boxes, scores, landmarks = face_detector.detect_align(image)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
+   print(list_of_emotions)
   ```
-- downlaod weight from drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
+- or run on webcam and shows the result on the image
+  
+    ```python FacialExpression/from_camera.py``` 
+    
+- downlaod weight of network from google drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
 - like this image:
 
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
 
-## Face Recognition: InsightFace
-- This repo is a reimplementation of Arcface(paper), or Insightface(github)
-- For models, including the pytorch implementation of the backbone modules of ir_se50 and MobileFacenet
+## 5. Face Recognition: InsightFace
+- This module is a reimplementation of Arcface(paper), or Insightface(Github)
+- For models, including the PyTorch implementation of the backbone modules of IR-SE50 and MobileFacenet
 
-##### Prepare Facebank (For testing over camera or video) 
-- Provide the face images your want to detect in the data/face_bank folder
+#### Pretrained Models & Performance
+
+[IR-SE50 @ Onedrive](https://1drv.ms/u/s!AhMqVPD44cDOhkPsOU2S_HFpY9dC)
+
+| LFW(%) | CFP-FF(%) | CFP-FP(%) | AgeDB-30(%) | calfw(%) | cplfw(%) | vgg2_fp(%) |
+| ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
+| 0.9952 | 0.9962    | 0.9504    | 0.9622      | 0.9557   | 0.9107   | 0.9386     |
+
+[Mobilefacenet @ OneDrive](https://1drv.ms/u/s!AhMqVPD44cDOhkSMHodSH4rhfb5u)
+
+| LFW(%) | CFP-FF(%) | CFP-FP(%) | AgeDB-30(%) | calfw(%) | cplfw(%) | vgg2_fp(%) |
+| ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
+| 0.9918 | 0.9891    | 0.8986    | 0.9347      | 0.9402   | 0.866    | 0.9100     |
+
+##### Prepare the Facebank (For testing over camera or video) 
+- Provide the face images your want to detect in the data/face_bank folder, and guarantee it have a structure like following:
     ```
     data/facebank/
             ---> person_1/
@@ -82,13 +132,23 @@ Original | Aligned & Resized | Original | Aligned & Resized |
                 ---> img_1.jpg
                 ---> img_2.jpg
     ```
-    
--  downlaod weight from drive [InsightFace](https://drive.google.com/open?id=1vHRseSFfqKZrrcSTfPf3wX0a0Y_ipKPR)
-- you can use this repo like this for camera verification:
+- you can save a preson with 3 ways:
 
-```
+  - use ```python add_face_from_camera.py -n NAME```
+    - use ```python add_face_from_dir.py -n NAME```
+    - or add faces manually (just face of person not image of a person)
+    
+- you can use this module like this for camera verification:
+  
+  ```
     python camera_verify.py -u update -m True
-```
+    ```
+
+  - u argument: update FaceBank if add a new person
+  - m argument: use Mobilenet for backbone
+<br><br>
+
+
 
 - and use into your code:
 
@@ -116,6 +176,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
 
+-  downlaod weight of network from google drive [InsightFace](https://drive.google.com/open?id=1vHRseSFfqKZrrcSTfPf3wX0a0Y_ipKPR)
 - example of run this code:
 
 ![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/face_rec.jpg)
@@ -125,6 +186,9 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
 - [Facial Expression](https://github.com/phamquiluan/ResidualMaskingNetwork)
 ## Citation:
+
+ ```
     - Author : Sajjad Ayoubi
     - Title : FaceLib
     - Year = 2020
+ ```
