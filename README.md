@@ -114,13 +114,13 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 #### Pretrained Models & Performance
 
-[IR-SE50 @ Onedrive](https://1drv.ms/u/s!AhMqVPD44cDOhkPsOU2S_HFpY9dC)
+- IR-SE50 
 
 | LFW(%) | CFP-FF(%) | CFP-FP(%) | AgeDB-30(%) | calfw(%) | cplfw(%) | vgg2_fp(%) |
 | ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
 | 0.9952 | 0.9962    | 0.9504    | 0.9622      | 0.9557   | 0.9107   | 0.9386     |
 
-[Mobilefacenet @ OneDrive](https://1drv.ms/u/s!AhMqVPD44cDOhkSMHodSH4rhfb5u)
+- Mobilefacenet
 
 | LFW(%) | CFP-FF(%) | CFP-FP(%) | AgeDB-30(%) | calfw(%) | cplfw(%) | vgg2_fp(%) |
 | ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
