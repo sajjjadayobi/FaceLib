@@ -2,6 +2,7 @@
 Sajjad Ayoubi: Age Gender Detection
 I use UTKFace DataSet
 from: https://susanqq.github.io/UTKFace/
+download it and put it on FaceSet dir
 and I create a annotation file annot.npy
 which there is in weights folder
 """
