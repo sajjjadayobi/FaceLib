@@ -4,17 +4,17 @@
 
 
 ## Installation
-- Clone and install with this command: 
-  
-    ```https://github.com/sajjjadayobi/FaceLib.git```
+- Clone and install with this command:
+
+    ```pip install git+https://github.com/sajjjadayobi/FaceLib.git```
 - Prerequisites
   - Python 3.6+
     - PyTorch 1.4+
   - Torchvision 0.4.0+
     - OpenCV 2.0+
   - requirements.txt
-  
-  
+
+
 ## 1. Face Detection: RetinaFace
 
  - you can use these backbone networks: Resnet50, mobilenet, slim, RFB
@@ -29,7 +29,7 @@
  - downlaod weight of network from google drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
  - you can cheche code and change it [Face Detector]()
  - based on this repository [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
-  
+
 #### WiderFace Validation Performance on a single scale When using Mobilenet for backbone
 | Style | easy | medium | hard |
 |:-|:-:|:-:|:-:|
@@ -47,9 +47,9 @@
    faces, boxes, scores, landmarks = detector.detect_align(image)
   ```
 - or run on webcam and shows the result on the image
-  
-    ```python Retinaface/from_camera.py``` 
-    
+
+    ```python Retinaface/from_camera.py```
+
 - detect_image() instead detect_faces()
 - for more details read detect_image function documentation
 - let's see a few examples
@@ -67,7 +67,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
  ```python
     from Retinaface.Retinaface import FaceDetector
     from AgeGender.Detector import AgeGender
-     
+
     face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
     age_gender_detector = AgeGender(name='full', weight_path='ShufflenetFull.pth', device='cuda')
 
@@ -76,32 +76,32 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     print(genders, ages)
   ```
  - or run on webcam and shows the result on the image
-  
-    ```python AgeGender/from_camera.py``` 
- 
+
+    ```python AgeGender/from_camera.py```
+
  - downlaod weight of network from google drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
- 
+
 
 
 ## 4. Facial Expression Recognition:
 - Facial Expression Recognition using Residual Masking Network
 - face size must be (224, 224), you can fix it in FaceDetector init function with face_size=(224, 224)
- 
+
  ```python
    from Retinaface.Retinaface import FaceDetector
    from FacialExpression.FaceExpression import EmotionDetector
-   
+
    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', face_size=(224, 224))
    emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
-   
+
    faces, boxes, scores, landmarks = face_detector.detect_align(image)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
    print(list_of_emotions)
   ```
 - or run on webcam and shows the result on the image
-  
-    ```python FacialExpression/from_camera.py``` 
-    
+
+    ```python FacialExpression/from_camera.py```
+
 - downlaod weight of network from google drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
 - like this image:
 
@@ -114,7 +114,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 #### Pretrained Models & Performance
 
-- IR-SE50 
+- IR-SE50
 
 | LFW(%) | CFP-FF(%) | CFP-FP(%) | AgeDB-30(%) | calfw(%) | cplfw(%) | vgg2_fp(%) |
 | ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
@@ -126,7 +126,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 | ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
 | 0.9918 | 0.9891    | 0.8986    | 0.9347      | 0.9402   | 0.866    | 0.9100     |
 
-##### Prepare the Facebank (For testing over camera or video) 
+##### Prepare the Facebank (For testing over camera or video)
 - Provide the face images your want to detect in the data/face_bank folder, and guarantee it have a structure like following:
     ```
     data/facebank/
@@ -141,9 +141,9 @@ Original | Aligned & Resized | Original | Aligned & Resized |
   - use ```python add_face_from_camera.py -n NAME```
     - use ```python add_face_from_dir.py -n NAME```
     - or add faces manually (just face of person not image of a person)
-    
+
 - you can use this module like this for camera verification:
-  
+
   ```
     python camera_verify.py -u update -m True
     ```
@@ -160,19 +160,19 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     from InsightFace.models.Learner import face_learner
     from InsightFace.utils import update_facebank, load_facebank, special_draw
     from Retinaface.Retinaface import FaceDetector
-    
-    
+
+
     conf = get_config(training=False)
     detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device=conf.device)
     conf.use_mobilfacenet = True or False
     face_rec = face_learner(conf, inference=True)
     face_rec.model.eval()
-    
+
     if update_facebank_for_add_new_person:
         targets, names = update_facebank(conf, face_rec.model, detector)
     else:
         targets, names = load_facebank(conf)
-    
+
     faces, boxes, scores, landmarks = detector.detect_align(image)
     results, score = face_rec.infer(conf, faces, targets)
     for idx, bbox in enumerate(boxes):
