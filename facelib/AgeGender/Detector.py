@@ -1,4 +1,4 @@
-from AgeGender.models.model import ShuffleneTiny, ShuffleneFull
+from facelib.AgeGender.models.model import ShuffleneTiny, ShuffleneFull
 import torch
 
 
