@@ -6,6 +6,9 @@
   - improve performance
   - how can you train it with new data?
   - add some new features
+    - download weight files into codes
+    - create pip package
+    - some example in jupyter notebooks
   
 ## Installation
 - Clone and install with this command:
