@@ -2,7 +2,11 @@
 - use for Detection, Facial Expression, Age & Gender Estimation and  Recognition with PyTorch
 - this repository works with CPU and GPU(Cuda)
 
-
+## New Version (coming next month)
+  - improve performance
+  - how can you train it with new data?
+  - add some new features
+  
 ## Installation
 - Clone and install with this command: 
   
