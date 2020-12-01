@@ -63,7 +63,7 @@
 
 Original | Aligned & Resized | Original | Aligned & Resized |
 |---|---|---|---|
-|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/res2.jpg)|
+|![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/input1.jpg)|![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/res1.jpg)|![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/input2.jpg)|![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/res2.jpg)|
 
 
 ## 3. Age & Gender Estimation:
@@ -112,7 +112,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - downlaod weight of network from google drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
 - like this image:
 
-![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/expression.jpg)
+![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/expression.jpg)
 
 
 ## 5. Face Recognition: InsightFace
@@ -189,7 +189,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 -  downlaod weight of network from google drive [InsightFace](https://drive.google.com/open?id=1vHRseSFfqKZrrcSTfPf3wX0a0Y_ipKPR)
 - example of run this code:
 
-![image](https://github.com/sajjjadayobi/FaceRec/blob/master/imgs/face_rec.jpg)
+![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/face_rec.jpg)
 
 ## Reference:
 - [InsightFace](https://github.com/TreB1eN/InsightFace_Pytorch)
