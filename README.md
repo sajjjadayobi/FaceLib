@@ -29,7 +29,7 @@
  - The following example illustrates the ease of use of this package:
 
   ```python
-   from Retinaface.Retinaface import FaceDetector
+   from facelib import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
@@ -49,7 +49,7 @@
 - you can use this module like this:
 
   ```python
-   from Retinaface.Retinaface import FaceDetector
+   from facelib import FaceDetector
    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
    faces, boxes, scores, landmarks = detector.detect_align(image)
   ```
@@ -72,11 +72,11 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - you can use this module like this:
 
  ```python
-    from Retinaface.Retinaface import FaceDetector
-    from AgeGender.Detector import AgeGender
+    from facelib import FaceDetector
+    from facelib import AgeGenderEstimator
 
     face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
-    age_gender_detector = AgeGender(name='full', weight_path='ShufflenetFull.pth', device='cuda')
+    age_gender_detector = AgeGenderEstimator(name='full', weight_path='ShufflenetFull.pth', device='cuda')
 
     faces, boxes, scores, landmarks = face_detector.detect_align(image)
     genders, ages = age_gender_detector.detect(faces)
@@ -96,7 +96,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
  ```python
    from Retinaface.Retinaface import FaceDetector
-   from FacialExpression.FaceExpression import EmotionDetector
+   from facelib import EmotionDetector
 
    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', face_size=(224, 224))
    emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
@@ -163,16 +163,16 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - and use into your code:
 
 ```python
-    from InsightFace.data.config import get_config
-    from InsightFace.models.Learner import face_learner
-    from InsightFace.utils import update_facebank, load_facebank, special_draw
-    from Retinaface.Retinaface import FaceDetector
+    from facelib import get_config
+    from facelib import FaceRecognizer
+    from facelib import update_facebank, load_facebank, special_draw
+    from facelib import FaceDetector
 
 
     conf = get_config(training=False)
     detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device=conf.device)
     conf.use_mobilfacenet = True or False
-    face_rec = face_learner(conf, inference=True)
+    face_rec = FaceRecognizer(conf, inference=True)
     face_rec.model.eval()
 
     if update_facebank_for_add_new_person:
