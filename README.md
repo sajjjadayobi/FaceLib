@@ -95,7 +95,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - face size must be (224, 224), you can fix it in FaceDetector init function with face_size=(224, 224)
 
  ```python
-   from Retinaface.Retinaface import FaceDetector
+   from facelib import FaceDetector
    from facelib import EmotionDetector
 
    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', face_size=(224, 224))
