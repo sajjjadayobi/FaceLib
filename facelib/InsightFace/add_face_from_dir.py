@@ -1,6 +1,6 @@
 import cv2
 import argparse
-from Retinaface.Retinaface import FaceDetector
+from facelib import FaceDetector
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description='take a picture')
@@ -12,12 +12,12 @@ print('only a face in each image and all image from the same person')
 dir_path = Path(args.path)
 if not dir_path.is_dir():
     exit('dir does not exists !!')
-save_path = Path(f'data/facebank/{dir_path.name}')
+save_path = Path(f'models/data/facebank/{dir_path.name}')
 if not save_path.exists():
     save_path.mkdir()
 
 # init detector
-detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device='cuda')
+detector = FaceDetector(name='mobilenet', weight_path='../Retinaface/weights/mobilenet.pth', device='cuda')
 
 counter = 0
 for img_path in dir_path.iterdir():

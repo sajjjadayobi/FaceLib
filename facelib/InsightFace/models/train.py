@@ -1,5 +1,5 @@
-from data.config import get_config
-from models.Learner import face_learner
+from facelib import get_config
+from facelib import FaceRecognizer
 import argparse
 
 # python train.py -net mobilefacenet -b 200 -w 4
@@ -27,5 +27,5 @@ if __name__ == '__main__':
     conf.batch_size = args.batch_size
     conf.num_workers = args.num_workers
     conf.data_mode = args.data_mode
-    learner = face_learner(conf)
+    learner = FaceRecognizer(conf)
     learner.train(conf, args.epochs)

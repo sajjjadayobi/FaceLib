@@ -3,11 +3,9 @@ Sajjad Ayoubi: Age Gender Detection
 I use UTKFace DataSet
 from: https://susanqq.github.io/UTKFace/
 download it and put it on FaceSet dir
-and I create a annotation file annot.npy
+and I create a annotation file data.npy
 which there is in weights folder
 """
-
-
 
 from PIL import Image
 import numpy as np
@@ -16,7 +14,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader, Dataset
 import torchvision.transforms as transforms
-from AgeGender.models.model import ShuffleneFull, TrainModel
+from facelib.AgeGender.models.model import ShuffleneFull, TrainModel
 
 
 class MultitaskDataset(Dataset):

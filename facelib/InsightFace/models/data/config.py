@@ -6,7 +6,7 @@ from torch.nn import CrossEntropyLoss
 
 def get_config(training=True):
     conf = edict()
-    conf.data_path = Path('data')
+    conf.data_path = Path('models/data')
     conf.work_path = Path('weights/')
     conf.model_path = conf.work_path / 'models'
     conf.log_path = conf.work_path / 'log'

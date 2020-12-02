@@ -1,4 +1,4 @@
-from torch.nn import Linear, Conv2d, BatchNorm1d, BatchNorm2d, PReLU, ReLU, Sigmoid, Dropout2d, Dropout, AvgPool2d, \
+from torch.nn import Linear, Conv2d, BatchNorm1d, BatchNorm2d, PReLU, ReLU, Sigmoid, Dropout, \
     MaxPool2d, AdaptiveAvgPool2d, Sequential, Module, Parameter
 import torch
 from collections import namedtuple

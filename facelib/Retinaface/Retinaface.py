@@ -1,6 +1,5 @@
 import torch
 import cv2
-import numpy as np
 from skimage import transform
 
 from .utils.alignment import get_reference_facial_points, FaceWarpException

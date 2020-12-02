@@ -1,8 +1,8 @@
 from datetime import datetime
 import numpy as np
 import io, cv2
+from .model import l2_norm
 import torch
-from models.model import l2_norm
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 
@@ -103,7 +103,7 @@ def draw(bbox, name, frame):
     return frame
 
 
-def special_draw(img, box, landmarsk, name, score):
+def special_draw(img, box, landmarsk, name, score=100):
     """draw a bounding box on image"""
     color = (148, 133, 0)
     tl = round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1  # line thickness

@@ -1,9 +1,9 @@
 import cv2
 import argparse
-from data.config import get_config
-from models.Learner import face_learner
-from utils import update_facebank, load_facebank, special_draw
-from Retinaface.Retinaface import FaceDetector
+from facelib import get_config, special_draw
+from facelib import update_facebank, load_facebank
+from facelib import FaceRecognizer
+from facelib import FaceDetector
 
 
 if __name__ == '__main__':
@@ -15,9 +15,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     conf = get_config(training=False)
-    detector = FaceDetector(name='mobilenet', weight_path='Retinaface/weights/mobilenet.pth', device=conf.device)
+    detector = FaceDetector(name='mobilenet', weight_path='../Retinaface/weights/mobilenet.pth', device=conf.device)
     conf.use_mobilfacenet = args.mobilenet
-    face_rec = face_learner(conf, inference=True)
+    face_rec = FaceRecognizer(conf, inference=True)
     face_rec.threshold = args.threshold
     face_rec.model.eval()
 

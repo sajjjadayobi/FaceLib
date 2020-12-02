@@ -1,12 +1,12 @@
-from data.data_pipe import get_train_loader, get_val_data
-from models.model import Backbone, Arcface, MobileFaceNet, l2_norm
-from models.evaluatation import evaluate
+from .data.data_pipe import get_train_loader, get_val_data
+from .model import Backbone, Arcface, MobileFaceNet, l2_norm
+from .evaluatation import evaluate
 import torch
 from torch import optim
 import numpy as np
 from tqdm import tqdm
-from utils import get_time, gen_plot, separate_bn_paras
-from utils import faces_preprocessing
+from .utils import get_time, gen_plot, separate_bn_paras
+from .utils import faces_preprocessing
 from PIL import Image
 from torchvision import transforms as trans
 import math
@@ -14,7 +14,7 @@ from matplotlib import pyplot as plt
 plt.switch_backend('agg')
 
 
-class face_learner:
+class FaceRecognizer:
 
     def __init__(self, conf, inference=False):
 

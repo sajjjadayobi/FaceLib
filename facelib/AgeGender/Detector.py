@@ -2,7 +2,7 @@ from facelib.AgeGender.models.model import ShuffleneTiny, ShuffleneFull
 import torch
 
 
-class AgeGender:
+class AgeGenderEstimator:
 
     def __init__(self, name, weight_path, device):
         """
