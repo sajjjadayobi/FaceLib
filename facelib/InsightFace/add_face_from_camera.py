@@ -7,9 +7,17 @@ parser = argparse.ArgumentParser(description='take a picture')
 parser.add_argument('--name', '-n', default='unknown', type=str, help='input the name of the recording person')
 args = parser.parse_args()
 
-save_path = Path('models/data/facebank') / args.name
+
+# create facebank folder if is not exists
+save_path = Path('models/data/facebank')
 if not save_path.exists():
     save_path.mkdir()
+
+# create a new folder with (name) for new person
+save_path = save_path/args.name
+if not save_path.exists():
+    save_path.mkdir()
+
 
 # init camera
 cap = cv2.VideoCapture(1)
