@@ -12,6 +12,13 @@ print('only a face in each image and all image from the same person')
 dir_path = Path(args.path)
 if not dir_path.is_dir():
     exit('dir does not exists !!')
+
+
+# create facebank folder if is not exists
+save_path = Path('models/data/facebank')
+if not save_path.exists():
+    save_path.mkdir()
+
 save_path = Path(f'models/data/facebank/{dir_path.name}')
 if not save_path.exists():
     save_path.mkdir()
