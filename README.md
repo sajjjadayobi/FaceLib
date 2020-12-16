@@ -174,7 +174,9 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     conf.use_mobilfacenet = True or False
     face_rec = FaceRecognizer(conf, inference=True)
     face_rec.model.eval()
-
+    
+    # set True when you add someone new 
+    update_facebank_for_add_new_person = False
     if update_facebank_for_add_new_person:
         targets, names = update_facebank(conf, face_rec.model, detector)
     else:
