@@ -16,8 +16,12 @@
 
 ## Installation
 - Clone and install with this command:
-    - ```pip install git+https://github.com/sajjjadayobi/FaceLib.git```
-    - or `git clone https://github.com/sajjjadayobi/FaceLib.git`
+    - with pip and automatic installs everything all you need
+      - `pip install git+https://github.com/sajjjadayobi/FaceLib.git`
+    
+    - or with cloning the repo and install required packages 
+      - `git clone https://github.com/sajjjadayobi/FaceLib.git`
+      - you can see the required packages in [requirements.txt](https://github.com/sajjjadayobi/FaceLib/blob/master/requirements.txt)
 
 ## How to use:
   - the simplest way is at [example_notebook.ipynb](https://github.com/sajjjadayobi/FaceLib/blob/master/example_notebook.ipynb)
