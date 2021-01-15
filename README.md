@@ -125,6 +125,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    detector.run()
 ```
 
+![Alt Text](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/emotion.gif)
 
 ## 5. Face Recognition: InsightFace
 - This module is a reimplementation of Arcface(paper), or Insightface(Github)
