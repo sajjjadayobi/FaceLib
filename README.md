@@ -136,16 +136,16 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - you can save a new preson in facebank with 3 ways:
 
   - use `add_from_webcam`: it takes 4 images and saves them on facebank
-   ```python
-      from facelib import add_from_webcam
-      add_from_webcam(person_name='sajjad')
-   ```
-  
+  ```python
+     from facelib import add_from_webcam
+     add_from_webcam(person_name='sajjad')
+  ```
+
   - use `add_from_folder`: it takes a path with some images from just a person 
-    ```python
-        from facelib import add_from_folder
-        add_from_webcam(folder_path='./', person_name='sajjad')
-    ```
+  ```python
+     from facelib import add_from_folder
+     add_from_webcam(folder_path='./', person_name='sajjad')
+  ```
   
   - or add faces manually (just face of a person not image of a person)
     - I don't suggest this
@@ -173,6 +173,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     image = cv2.imread(your_path)
     faces, boxes, scores, landmarks = detector.detect_align(image)
     results, score = face_rec.infer(conf, faces, targets)
+    print(names[results.cpu()])
     for idx, bbox in enumerate(boxes):
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
