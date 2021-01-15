@@ -2,8 +2,7 @@
 - use for Detection, Facial Expression, Age & Gender Estimation and  Recognition with PyTorch
 - this repository works with CPU and GPU(Cuda)
 
-## New Version (is here)
-  - improve performance
+## New Version: 
   - add some new features
     - add default argument for all functions and classes
     - automatic download weight files into codes
@@ -21,7 +20,7 @@
     - or `git clone https://github.com/sajjjadayobi/FaceLib.git`
 
 ## How to use:
-  - the simplest way is at `example_notebook.ipynb`
+  - the simplest way is at [example_notebook.ipynb](https://github.com/sajjjadayobi/FaceLib/blob/master/example_notebook.ipynb)
   - for low-level usage check out the following sections
   - if you have an NVIDIA GPU don't change the device param if not use `cpu`
  
@@ -37,8 +36,15 @@
    detector = FaceDetector()
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
- - you can check or change it [Face Detector]()
- - based on this repository [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
+- live on your webcam
+  ```python
+     from facelib import WebcamFaceDetector
+     detector = WebcamFaceDetector()
+     detector.run()
+  ```
+
+  
+ - you can check or change it [Face Detector](https://github.com/sajjjadayobi/FaceLib/tree/master/facelib/Retinaface)
 
 #### WiderFace Validation Performance on a single scale When using Mobilenet for backbone
 | Style | easy | medium | hard |
@@ -82,6 +88,13 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     genders, ages = age_gender_detector.detect(faces)
     print(genders, ages)
   ```
+  
+- live on your webcam
+  ```python
+     from facelib import WebcamAgeGenderEstimator
+     estimator = WebcamAgeGenderEstimator()
+     estimator.run()
+  ```
 
 
 ## 4. Facial Expression Recognition:
@@ -100,9 +113,12 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    print(list_of_emotions)
   ```
 
-- like this image:
-
-![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/expression.jpg)
+- live on your webcam
+  ```python
+     from facelib import WebcamEmotionDetector
+     detector = WebcamEmotionDetector()
+     detector.run()
+  ```
 
 
 ## 5. Face Recognition: InsightFace
@@ -178,6 +194,14 @@ Original | Aligned & Resized | Original | Aligned & Resized |
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
 
+- Face Recognition live on your webcam
+  ```python
+     from facelib import WebcamVerify
+     verifier = WebcamVerify()
+     verifier.run()
+  ```
+
+
 - example of run this code:
 
 ![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/face_rec.jpg)
@@ -186,7 +210,6 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - [InsightFace](https://github.com/TreB1eN/InsightFace_Pytorch)
 - [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
 - [Facial Expression](https://github.com/phamquiluan/ResidualMaskingNetwork)
-## Citation:
 
  ```
     - Author : Sajjad Ayoubi
