@@ -32,10 +32,11 @@ class AgeGenderEstimator:
             weight_path = os.path.join(os.path.dirname(file_name), 'weights/ShufflenetFull.pth')
             if os.path.isfile(weight_path) == False:
                 print('from AgeGenderEstimator: download defualt weight started')
+                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
                 download_weight(link='https://drive.google.com/uc?export=download&id=1rnOZo46RjGZYrUb6Wup6sSOP37ol5I9E', file_name=file_name)
                 os.rename(file_name, weight_path)
         
-        model.load_state_dict(torch.load(weight_path))
+        model.load_state_dict(torch.load(weight_path, map_location=device))
         model.to(device).eval()
         self.model = model
         self.device = device

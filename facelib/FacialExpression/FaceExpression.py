@@ -38,10 +38,11 @@ class EmotionDetector:
             weight_path = os.path.join(os.path.dirname(file_name), 'weights/densnet121.pth')
             if os.path.isfile(weight_path) == False:
                 print('from EmotionDetector: download defualt weight started')
+                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
                 download_weight(link='https://drive.google.com/uc?export=download&id=1G3VsfgiQb16VyFnOwEVDgm2g8-9qN0-9', file_name=file_name)
                 os.rename(file_name, weight_path)
 
-        self.model.load_state_dict(torch.load(weight_path))
+        self.model.load_state_dict(torch.load(weight_path, map_location=device))
         self.model.to(device).eval()
         print('from EmotionDetector: weights loaded')
 

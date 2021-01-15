@@ -60,10 +60,11 @@ class FaceRecognizer:
                     weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
                     if os.path.isfile(weight_path) == False:
                         print('from FaceRecognizer: download defualt weight started')
+                        os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
                         download_weight(link='https://drive.google.com/uc?export=download&id=1W9nM7LE6zUKQ4tncL6OnBn-aXNyiRPNH', file_name=file_name)
                         os.rename(file_name, weight_path)
                     
-                    self.model.load_state_dict(torch.load(weight_path))
+                    self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
                     print('from FaceRecognizer: MobileFaceNet Loaded')
                 else:
                     self.model.load_state_dict(torch.load(f'{conf.work_path}/ir_se50.pth'))

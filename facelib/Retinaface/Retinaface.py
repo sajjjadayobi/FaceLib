@@ -40,11 +40,12 @@ class FaceDetector:
             weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
             if os.path.isfile(weight_path) == False:
                 print('from FaceDetector: download defualt weight started')
+                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
                 download_weight(link='https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1', file_name=file_name)
                 os.rename(file_name, weight_path)
              
         # setting for model
-        model.load_state_dict(torch.load(weight_path))
+        model.load_state_dict(torch.load(weight_path, map_location=device))
         model.to(device).eval()
         self.model = model
         self.device = device
