@@ -1,12 +1,13 @@
 from easydict import EasyDict as edict
 from pathlib import Path
+import os
 import torch
 from torch.nn import CrossEntropyLoss
 
 
 def get_config(inference=True):
     conf = edict()
-    conf.data_path = Path('facelib/InsightFace/models/data/')
+    conf.data_path = Path(os.path.dirname(os.path.realpath(__file__)), 'models/data/')
     conf.work_path = Path('weights/')
     conf.model_path = conf.work_path / 'models'
     conf.log_path = conf.work_path / 'log'
