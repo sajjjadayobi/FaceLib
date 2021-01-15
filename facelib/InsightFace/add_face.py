@@ -1,3 +1,4 @@
+import os
 import cv2
 import torch
 from facelib import FaceDetector
@@ -7,7 +8,8 @@ from pathlib import Path
 def add_from_webcam(person_name='unknow', camera_index=0):
     print('loading ...')
     # create facebank folder if is not exists
-    save_path = Path('facelib/InsightFace/models/data/facebank')
+    
+    save_path = Path(os.path.dirname(os.path.realpath(__file__)), 'models/data/facebank')
     if not save_path.exists():
         save_path.mkdir()
 
@@ -63,7 +65,7 @@ def add_from_folder(folder_path='./', person_name='unknow'):
         exit('dir does not exists !!')
 
     # create facebank folder if is not exists
-    save_path = Path('facelib/InsightFace/models/data/facebank')
+    save_path = Path(os.path.dirname(os.path.realpath(__file__)), 'models/data/facebank')
     if not save_path.exists():
         save_path.mkdir()
 
