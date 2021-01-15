@@ -125,6 +125,8 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    detector.run()
 ```
 
+- on my Webcam 🙂
+
 ![Alt Text](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/emotion.gif)
 
 ## 5. Face Recognition: InsightFace
