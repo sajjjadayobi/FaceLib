@@ -2,40 +2,42 @@
 - use for Detection, Facial Expression, Age & Gender Estimation and  Recognition with PyTorch
 - this repository works with CPU and GPU(Cuda)
 
-## New Version (coming next month)
+## New Version (is here)
   - improve performance
-  - how can you train it with new data?
   - add some new features
-    - add some good default argument for functions
-    - download weight files into codes
-    - create pip package
-    - some example in jupyter notebooks
-  
+    - add default argument for all functions and classes
+    - automatic download weight files into codes
+    - an example jupyter notebooks
+    - fix some bugs
+  - Webcam Classes
+    - WebcamVerifier
+    - WebcamFaceDetector
+    - WebcamAgeGenderEstimator
+    - WebcamEmotionDetector
+
 ## Installation
 - Clone and install with this command:
+    - ```pip install git+https://github.com/sajjjadayobi/FaceLib.git```
+    - or `git clone https://github.com/sajjjadayobi/FaceLib.git`
 
-    ```pip install git+https://github.com/sajjjadayobi/FaceLib.git```
-- Prerequisites
-  - Python 3.6+
-    - PyTorch 1.4+
-  - Torchvision 0.4.0+
-    - OpenCV 2.0+
-  - requirements.txt
-
-
+## How to use:
+  - the simplest way is at `example_notebook.ipynb`
+  - for low-level usage check out the following sections
+  - if you have an NVIDIA GPU don't change the device param if not use `cpu`
+ 
 ## 1. Face Detection: RetinaFace
 
- - you can use these backbone networks: Resnet50, mobilenet, slim, RFB
- - for more details, you can use the documentation
+ - you can use these backbone networks: Resnet50, mobilenet
+    - default weights and model is `mobilenet` and it will be automatically download
+ - for more details, you can see the documentation
  - The following example illustrates the ease of use of this package:
 
   ```python
    from facelib import FaceDetector
-   detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cpu')
+   detector = FaceDetector()
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
- - downlaod weight of network from google drive [RetinaFace](https://drive.google.com/open?id=1JtO_ZdWUDLHUswJKDBEWImmfMA-rCxlx)
- - you can cheche code and change it [Face Detector]()
+ - you can check or change it [Face Detector]()
  - based on this repository [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
 
 #### WiderFace Validation Performance on a single scale When using Mobilenet for backbone
@@ -47,18 +49,16 @@
 
 
 ## 2. Face Alignment: Similar Transformation
+- always use detect_align it gives you better performance
 - you can use this module like this:
+  - `detect_align` instead of `detect_faces`
 
   ```python
    from facelib import FaceDetector
-   detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
+   detector = FaceDetector()
    faces, boxes, scores, landmarks = detector.detect_align(image)
   ```
-- or run on webcam and shows the result on the image
-
-    ```python Retinaface/from_camera.py```
-
-- detect_image() instead detect_faces()
+  
 - for more details read detect_image function documentation
 - let's see a few examples
 
@@ -69,48 +69,37 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 ## 3. Age & Gender Estimation:
 - I used UTKFace DataSet for Age & Gender Estimation
-- you can use these backbone networks: full, tiny
+  - default weights and model is `ShufflenetFull` and it will be automatically download
 - you can use this module like this:
 
  ```python
-    from facelib import FaceDetector
-    from facelib import AgeGenderEstimator
+    from facelib import FaceDetector, AgeGenderEstimator
 
-    face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device='cuda')
-    age_gender_detector = AgeGenderEstimator(name='full', weight_path='ShufflenetFull.pth', device='cuda')
+    face_detector = FaceDetector()
+    age_gender_detector = AgeGenderEstimator()
 
     faces, boxes, scores, landmarks = face_detector.detect_align(image)
     genders, ages = age_gender_detector.detect(faces)
     print(genders, ages)
   ```
- - or run on webcam and shows the result on the image
-
-    ```python AgeGender/from_camera.py```
-
- - downlaod weight of network from google drive [ShufleNet](https://drive.google.com/open?id=1ija2VNl2xTZM73e5-dnnpE_4-v3qmLN6)
-
 
 
 ## 4. Facial Expression Recognition:
 - Facial Expression Recognition using Residual Masking Network
+  - default weights and model is `densnet121` and it will be automatically download
 - face size must be (224, 224), you can fix it in FaceDetector init function with face_size=(224, 224)
 
  ```python
-   from facelib import FaceDetector
-   from facelib import EmotionDetector
-
-   face_detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', face_size=(224, 224))
-   emotion_detector = EmotionDetector(name='resnet34', weight_path='resnet34.pth', device='cuda')
+   from facelib import FaceDetector, EmotionDetector
+  
+   face_detector = FaceDetector(face_size=(224, 224))
+   emotion_detector = EmotionDetector()
 
    faces, boxes, scores, landmarks = face_detector.detect_align(image)
    list_of_emotions, probab = emotion_detector.detect_emotion(faces)
    print(list_of_emotions)
   ```
-- or run on webcam and shows the result on the image
 
-    ```python FacialExpression/from_camera.py```
-
-- downlaod weight of network from google drive [Expression](https://drive.google.com/open?id=1Ocy7TB11med-z6QfaHUQGCSki7Dk_PVV)
 - like this image:
 
 ![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/expression.jpg)
@@ -118,7 +107,6 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 
 ## 5. Face Recognition: InsightFace
 - This module is a reimplementation of Arcface(paper), or Insightface(Github)
-- For models, including the PyTorch implementation of the backbone modules of IR-SE50 and MobileFacenet
 
 #### Pretrained Models & Performance
 
@@ -134,46 +122,45 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 | ------ | --------- | --------- | ----------- | -------- | -------- | ---------- |
 | 0.9918 | 0.9891    | 0.8986    | 0.9347      | 0.9402   | 0.866    | 0.9100     |
 
-##### Prepare the Facebank (For testing over camera or video)
-- Provide the face images your want to detect in the data/face_bank folder, and guarantee it have a structure like following:
+#### Prepare the Facebank (For testing over camera, video or image)
+- the faces images you want to detect it save them in this folder:
     ```
-    data/facebank/
-            ---> person_1/
-                ---> img_1.jpg
-            ---> person_2/
-                ---> img_1.jpg
-                ---> img_2.jpg
+    Insightface/models/data/facebank/
+              ---> person_1/
+                  ---> img_1.jpg
+                  ---> img_2.jpg
+              ---> person_2/
+                  ---> img_1.jpg
+                  ---> img_2.jpg
     ```
-- you can save a preson with 3 ways:
+- you can save a new preson in facebank with 3 ways:
 
-  - use ```python add_face_from_camera.py -n NAME```
-    - use ```python add_face_from_dir.py -n NAME```
-    - or add faces manually (just face of person not image of a person)
-
-- you can use this module like this for camera verification:
-
-  ```
-    python camera_verify.py -u update -m True
+  - use `add_from_webcam`: it takes 4 images and saves them on facebank
+   ```python
+      from facelib import add_from_webcam
+      add_from_webcam(person_name='sajjad')
+   ```
+  
+  - use `add_from_folder`: it takes a path with some images from just a person 
+    ```python
+        from facelib import add_from_folder
+        add_from_webcam(folder_path='./', person_name='sajjad')
     ```
+  
+  - or add faces manually (just face of a person not image of a person)
+    - I don't suggest this
 
-  - u argument: update FaceBank if add a new person
-  - m argument: use Mobilenet for backbone
-
-
-
-- and use into your code:
+#### Using
+- default weights and model is `mobilenet` and it will be automatically download
 
 ```python
-    from facelib import get_config
-    from facelib import FaceRecognizer
-    from facelib import update_facebank, load_facebank, special_draw
-    from facelib import FaceDetector
-
-
-    conf = get_config(training=False)
-    detector = FaceDetector(name='mobilenet', weight_path='mobilenet.pth', device=conf.device)
-    conf.use_mobilfacenet = True or False
-    face_rec = FaceRecognizer(conf, inference=True)
+    import cv2
+    from facelib import FaceRecognizer, FaceDetector
+    from facelib import update_facebank, load_facebank, special_draw, get_config
+ 
+    conf = get_config()
+    detector = FaceDetector()
+    face_rec = FaceRecognizer(conf)
     face_rec.model.eval()
     
     # set True when you add someone new 
@@ -183,13 +170,13 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     else:
         targets, names = load_facebank(conf)
 
+    image = cv2.imread(your_path)
     faces, boxes, scores, landmarks = detector.detect_align(image)
     results, score = face_rec.infer(conf, faces, targets)
     for idx, bbox in enumerate(boxes):
         special_draw(image, bbox, landmarks[idx], names[results[idx]+1], score[idx])
 ```
 
--  downlaod weight of network from google drive [InsightFace](https://drive.google.com/open?id=1vHRseSFfqKZrrcSTfPf3wX0a0Y_ipKPR)
 - example of run this code:
 
 ![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/face_rec.jpg)
@@ -203,5 +190,5 @@ Original | Aligned & Resized | Original | Aligned & Resized |
  ```
     - Author : Sajjad Ayoubi
     - Title : FaceLib
-    - Year = 2020
+    - Year = 2021
  ```
