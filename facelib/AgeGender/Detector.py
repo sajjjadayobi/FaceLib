@@ -1,10 +1,11 @@
 from facelib.AgeGender.models.model import ShuffleneTiny, ShuffleneFull
+from facelib.utils import download_weight
 import torch
-
+import os
 
 class AgeGenderEstimator:
 
-    def __init__(self, name, weight_path, device):
+    def __init__(self, name='full', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")):
         """
         Age and gender Detector
         :param name: name of backbone (full or tiny)
@@ -25,10 +26,20 @@ class AgeGenderEstimator:
         else:
             exit('from AgeGender Detector: model dose not support just(tiny, full)')
 
+        # download the default weigth
+        if weight_path is None:
+            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ShufflenetFull.pth')
+            weight_path = os.path.join(os.path.dirname(file_name), 'weights/ShufflenetFull.pth')
+            if os.path.isfile(weight_path) == False:
+                print('from AgeGenderEstimator: download defualt weight started')
+                download_weight(link='https://drive.google.com/uc?export=download&id=1rnOZo46RjGZYrUb6Wup6sSOP37ol5I9E', file_name=file_name)
+                os.rename(file_name, weight_path)
+        
         model.load_state_dict(torch.load(weight_path))
         model.to(device).eval()
         self.model = model
         self.device = device
+        print('from AgeGenderEstimator: weights loaded')
 
     def detect(self, faces):
         faces = faces.permute(0, 3, 1, 2)

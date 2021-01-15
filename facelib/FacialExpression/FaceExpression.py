@@ -1,14 +1,15 @@
 import torch
+import os
 import numpy as np
+from facelib.utils import download_weight
 from .models.densenet import densenet121
 from .models.resnet import resnet34
 
 labels = np.array(['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral'])
 
-
 class EmotionDetector:
 
-    def __init__(self, name='resnet34', device='cpu', weight_path='weights/resnet34.pth'):
+    def __init__(self, name='densnet121', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")):
         """
         Residual Masking Emotion Detector from a list of labels
         :param name: name of backbone of networks (resnet34, densenet121)
@@ -29,10 +30,20 @@ class EmotionDetector:
         elif name == 'densnet121':
             self.model = densenet121()
         else:
-            exit('EmotionDetector: Network does not support!! \n just(resnet34, densnet121)')
+            exit('from EmotionDetector: Network does not support!! \n just(resnet34, densnet121)')
+
+        # download the default weigth
+        if weight_path is None:
+            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'densnet121.pth')
+            weight_path = os.path.join(os.path.dirname(file_name), 'weights/densnet121.pth')
+            if os.path.isfile(weight_path) == False:
+                print('from EmotionDetector: download defualt weight started')
+                download_weight(link='https://drive.google.com/uc?export=download&id=1G3VsfgiQb16VyFnOwEVDgm2g8-9qN0-9', file_name=file_name)
+                os.rename(file_name, weight_path)
 
         self.model.load_state_dict(torch.load(weight_path))
         self.model.to(device).eval()
+        print('from EmotionDetector: weights loaded')
 
 
     def detect_emotion(self, faces):

@@ -1,2 +1,7 @@
-age and gender detector can vectorized
-age 3 or couple time and average show
+in age and gender:
+    # can vectorized
+    # age 3 or couple time and average show
+
+# in recognition:
+    find any person add to image on after mean on all of image embs
+    verify 1 frame in 2 frame camera show

@@ -68,14 +68,14 @@ def update_facebank(conf, model, detector, tta=True):
 
     torch.save(faces_embs, conf.facebank_path/'facebank.pth')
     np.save(conf.facebank_path/'names', names)
-    print('from recognizer: facebank updated')
+    print('from FaceRecognizer: facebank updated')
     return faces_embs, names
 
 
 def load_facebank(conf):
     embs = torch.load(conf.facebank_path/'facebank.pth')
     names = np.load(conf.facebank_path/'names.npy')
-    print('from recognizer: facebank loaded')
+    print('from FaceRecognizer: facebank loaded')
     return embs, names
 
 

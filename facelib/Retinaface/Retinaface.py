@@ -1,18 +1,18 @@
+import os
 import torch
 import cv2
 from skimage import transform
 
 from .utils.alignment import get_reference_facial_points, FaceWarpException
 from .utils.box_utils import decode, decode_landmark, prior_box, nms
-from .utils.config import cfg_slim, cfg_rfb, cfg_mnet, cfg_re50
+from .utils.config import cfg_mnet, cfg_re50
 from .models.retinaface import RetinaFace
-from .models.rfb import RFB
-from .models.slim import Slim
+from facelib.utils import download_weight
 
 
 class FaceDetector:
 
-    def __init__(self, name, weight_path, device='cpu', confidence_threshold=0.99,
+    def __init__(self, name='mobilenet', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"), confidence_threshold=0.99,
                  top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112)):
         """
         RetinaFace Detector with 5points landmarks
@@ -31,15 +31,18 @@ class FaceDetector:
         elif name == 'resnet':
             cfg = cfg_re50
             model = RetinaFace(cfg=cfg, phase='test')
-        elif name == 'slim':
-            cfg = cfg_slim
-            model = Slim(cfg=cfg_slim, phase='test')
-        elif name == 'rfb':
-            cfg = cfg_rfb
-            model = RFB(cfg=cfg_rfb, phase='test')
         else:
-            exit('from FaceDetector Exit: model not support \n just(mobilenet, resnet, slim, rfb)')
+            exit('from FaceDetector Exit: model not support \n just(mobilenet, resnet)')
 
+        # download the default weigth
+        if weight_path is None:
+            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
+            weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
+            if os.path.isfile(weight_path) == False:
+                print('from FaceDetector: download defualt weight started')
+                download_weight(link='https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1', file_name=file_name)
+                os.rename(file_name, weight_path)
+             
         # setting for model
         model.load_state_dict(torch.load(weight_path))
         model.to(device).eval()

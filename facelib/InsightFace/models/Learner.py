@@ -4,7 +4,9 @@ from .evaluatation import evaluate
 import torch
 from torch import optim
 import numpy as np
+import os
 from tqdm import tqdm
+from facelib.utils import download_weight
 from .utils import get_time, gen_plot, separate_bn_paras
 from .utils import faces_preprocessing
 from PIL import Image
@@ -16,7 +18,7 @@ plt.switch_backend('agg')
 
 class FaceRecognizer:
 
-    def __init__(self, conf, inference=False):
+    def __init__(self, conf, inference=True):
 
         if conf.use_mobilfacenet:
             self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
@@ -53,13 +55,21 @@ class FaceRecognizer:
             self.threshold = conf.threshold
             try:
                 if conf.use_mobilfacenet:
-                    self.model.load_state_dict(torch.load(f'{conf.work_path}/mobilenet.pth'))
-                    print('from recognizer: MobileFaceNet Loaded')
+                    # download the default weigth
+                    file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
+                    weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
+                    if os.path.isfile(weight_path) == False:
+                        print('from FaceRecognizer: download defualt weight started')
+                        download_weight(link='https://drive.google.com/uc?export=download&id=1W9nM7LE6zUKQ4tncL6OnBn-aXNyiRPNH', file_name=file_name)
+                        os.rename(file_name, weight_path)
+                    
+                    self.model.load_state_dict(torch.load(weight_path))
+                    print('from FaceRecognizer: MobileFaceNet Loaded')
                 else:
                     self.model.load_state_dict(torch.load(f'{conf.work_path}/ir_se50.pth'))
-                    print('from recognizer: IR_SE_50 Loaded')
+                    print('from FaceRecognizer: IR_SE_50 Loaded')
             except IOError as e:
-                exit(f'from recognizer Exit: the weight does not exist,'
+                exit(f'from FaceRecognizer Exit: the weight does not exist,'
                      f' \n download and putting up in "{conf.work_path}" folder \n {e}')
 
 
@@ -221,7 +231,6 @@ class FaceRecognizer:
 
         diff = embs.unsqueeze(-1) - target_embs.transpose(1, 0).unsqueeze(0)
         dist = torch.sum(torch.pow(diff, 2), dim=1)
-        print(dist.item())
         minimum, min_idx = torch.min(dist, dim=1)
         min_idx[minimum > self.threshold] = -1  # if no match, set idx to -1
         return min_idx, minimum
