@@ -34,6 +34,8 @@ def separate_bn_paras(modules):
 
 
 def update_facebank(conf, model, detector, tta=True):
+    if os.path.exists(conf.facebank_path) == False:
+        raise Exception("you don't have facebank yet: create with add_from_webcam or add_from_folder function")
     model.eval()
     faces_embs = torch.empty(0).to(conf.device)
     names = np.array(['Unknown'])
@@ -73,6 +75,9 @@ def update_facebank(conf, model, detector, tta=True):
 
 
 def load_facebank(conf):
+    if os.path.exists(conf.facebank_path) == False:
+        raise Exception("you don't have facebank yet: create with add_from_webcam or add_from_folder function")
+    
     embs = torch.load(conf.facebank_path/'facebank.pth')
     names = np.load(conf.facebank_path/'names.npy')
     print('from FaceRecognizer: facebank loaded')
