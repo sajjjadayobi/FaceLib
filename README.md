@@ -36,12 +36,13 @@
    detector = FaceDetector()
    boxes, scores, landmarks = detector.detect_faces(image)
   ```
-- live on your webcam
-  ```python
-     from facelib import WebcamFaceDetector
-     detector = WebcamFaceDetector()
-     detector.run()
-  ```
+  
+- FaceDetection live on your webcam
+```python
+   from facelib import WebcamFaceDetector
+   detector = WebcamFaceDetector()
+   detector.run()
+```
 
   
  - you can check or change it [Face Detector](https://github.com/sajjjadayobi/FaceLib/tree/master/facelib/Retinaface)
@@ -59,11 +60,11 @@
 - you can use this module like this:
   - `detect_align` instead of `detect_faces`
 
-  ```python
-   from facelib import FaceDetector
-   detector = FaceDetector()
-   faces, boxes, scores, landmarks = detector.detect_align(image)
-  ```
+```python
+ from facelib import FaceDetector
+ detector = FaceDetector()
+ faces, boxes, scores, landmarks = detector.detect_align(image)
+```
   
 - for more details read detect_image function documentation
 - let's see a few examples
@@ -89,12 +90,12 @@ Original | Aligned & Resized | Original | Aligned & Resized |
     print(genders, ages)
   ```
   
-- live on your webcam
-  ```python
-     from facelib import WebcamAgeGenderEstimator
-     estimator = WebcamAgeGenderEstimator()
-     estimator.run()
-  ```
+- AgeGenderEstimation live on your webcam
+```python
+   from facelib import WebcamAgeGenderEstimator
+   estimator = WebcamAgeGenderEstimator()
+   estimator.run()
+```
 
 
 ## 4. Facial Expression Recognition:
@@ -113,12 +114,12 @@ Original | Aligned & Resized | Original | Aligned & Resized |
    print(list_of_emotions)
   ```
 
-- live on your webcam
-  ```python
-     from facelib import WebcamEmotionDetector
-     detector = WebcamEmotionDetector()
-     detector.run()
-  ```
+- EmotionDetector live on your webcam
+```python
+   from facelib import WebcamEmotionDetector
+   detector = WebcamEmotionDetector()
+   detector.run()
+```
 
 
 ## 5. Face Recognition: InsightFace
@@ -195,11 +196,11 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 ```
 
 - Face Recognition live on your webcam
-  ```python
-     from facelib import WebcamVerify
-     verifier = WebcamVerify()
-     verifier.run()
-  ```
+```python
+   from facelib import WebcamVerify
+   verifier = WebcamVerify(update=True)
+   verifier.run()
+```
 
 
 - example of run this code:
