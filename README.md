@@ -168,7 +168,7 @@ Original | Aligned & Resized | Original | Aligned & Resized |
   - use `add_from_folder`: it takes a path with some images from just a person 
   ```python
      from facelib import add_from_folder
-     add_from_webcam(folder_path='./', person_name='sajjad')
+     add_from_folder(folder_path='./', person_name='sajjad')
   ```
   
   - or add faces manually (just face of a person not image of a person)
