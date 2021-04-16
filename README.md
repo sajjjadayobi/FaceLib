@@ -218,9 +218,3 @@ Original | Aligned & Resized | Original | Aligned & Resized |
 - [InsightFace](https://github.com/TreB1eN/InsightFace_Pytorch)
 - [RetinaFace](https://github.com/biubug6/Pytorch_Retinaface)
 - [Facial Expression](https://github.com/phamquiluan/ResidualMaskingNetwork)
-
- ```
-    - Author : Sajjad Ayoubi
-    - Title : FaceLib
-    - Year = 2021
- ```
