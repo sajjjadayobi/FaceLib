@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 setuptools.setup(
     name='facelib',
     version='1.6',
-    author="Sajjad Ayobi",
+    author="Sajjad Ayoubi",
     author_email="sadeveloper360@gmail.com",
     description="Face Detection & Age Gender & Expression & Recognition",
     long_description=long_description,
