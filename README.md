@@ -2,18 +2,6 @@
 - use for Detection, Facial Expression, Age & Gender Estimation and  Recognition with PyTorch
 - this repository works with CPU and GPU(Cuda)
 
-## New Version: 
-  - add some new features
-    - add default argument for all functions and classes
-    - automatic download weight files into codes
-    - an example jupyter notebooks
-    - fix some bugs
-  - Webcam Classes
-    - WebcamVerifier
-    - WebcamFaceDetector
-    - WebcamAgeGenderEstimator
-    - WebcamEmotionDetector
-
 ## Installation
 - Clone and install with this command:
     - with pip and automatic installs everything all you need
