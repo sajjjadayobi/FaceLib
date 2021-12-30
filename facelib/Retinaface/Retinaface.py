@@ -1,6 +1,7 @@
 import os
 import torch
 import cv2
+import numpy as np
 from skimage import transform
 
 from .utils.alignment import get_reference_facial_points, FaceWarpException
@@ -162,5 +163,5 @@ class FaceDetector:
             face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
             warped.append(face_img)
 
-        faces = torch.tensor(warped).to(self.device)
+        faces = torch.tensor(np.array(warped)).to(self.device)
         return faces, boxes, scores, landmarks
