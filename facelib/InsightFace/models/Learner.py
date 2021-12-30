@@ -67,8 +67,18 @@ class FaceRecognizer:
                     self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
                     print('from FaceRecognizer: MobileFaceNet Loaded')
                 else:
-                    self.model.load_state_dict(torch.load(f'{conf.work_path}/ir_se50.pth'))
-                    print('from FaceRecognizer: IR_SE_50 Loaded')
+                    # download the default weigth
+                    file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ir_se50.pth')
+                    weight_path = os.path.join(os.path.dirname(file_name), 'weights/ir_se50.pth')
+                    if os.path.isfile(weight_path) == False:
+                        print('from FaceRecognizer: download ir_se50 weights started')
+                        os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
+                        download_weight(link='https://drive.google.com/uc?export=download&id=1mweSiyaAwFd9h-mpuxkJ5sYip0Zeqppt', file_name=file_name)
+                        os.rename(file_name, weight_path)
+                    
+                    self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
+                    print('from FaceRecognizer: ir_se50 Loaded')
+                    
             except IOError as e:
                 exit(f'from FaceRecognizer Exit: the weight does not exist,'
                      f' \n download and putting up in "{conf.work_path}" folder \n {e}')
