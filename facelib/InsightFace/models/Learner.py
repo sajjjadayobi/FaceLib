@@ -72,6 +72,7 @@ class FaceRecognizer:
             except IOError as e:
                 exit(f'from FaceRecognizer Exit: the weight does not exist,'
                      f' \n download and putting up in "{conf.work_path}" folder \n {e}')
+        self.model.eval()
 
 
     def save_state(self, conf, accuracy, to_save_folder=False, extra=None, model_only=False):
@@ -236,15 +237,16 @@ class FaceRecognizer:
         min_idx[minimum > self.threshold] = -1  # if no match, set idx to -1
         return min_idx, minimum
     
-    def feature_extractor(self, faces, conf, tta=False):
+    def feature_extractor(self, faces, device='cpu', tta=False):
         """
         faces : list of PIL Image
         tta : test time augmentation (hfilp, that's all)
         """
-        faces = faces_preprocessing(faces, conf.device)
+        faces = faces_preprocessing(faces, device)
         if tta:
             faces_emb = self.model(faces)
             hflip_emb = self.model(faces.flip(-1))  # horizontal flip
             embs = l2_norm((faces_emb + hflip_emb)/2)  # take mean
         else:
-            embs = self.model(faces)
+            embs = self.model(faces) 
+        return embs
