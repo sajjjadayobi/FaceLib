@@ -1,4 +1,3 @@
-from .data.data_pipe import get_train_loader, get_val_data
 from .model import Backbone, Arcface, MobileFaceNet, l2_norm
 from .evaluatation import evaluate
 import torch
@@ -18,87 +17,42 @@ plt.switch_backend('agg')
 
 class FaceRecognizer:
 
-    def __init__(self, conf, inference=True):
+    def __init__(self, conf):
         self.device = conf.device
-        if conf.use_mobilfacenet:
-            self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
-        else:
-            self.model = Backbone(conf.net_depth, conf.drop_ratio, conf.net_mode).to(conf.device)
-
-        if not inference:
-            self.milestones = conf.milestones
-            self.loader, self.class_num = get_train_loader(conf)
-            self.step = 0
-            self.head = Arcface(embedding_size=conf.embedding_size, classnum=self.class_num).to(conf.device)
-            print('two model heads generated')
-
-            paras_only_bn, paras_wo_bn = separate_bn_paras(self.model)
-
+        self.threshold = conf.threshold
+        
+        try:
             if conf.use_mobilfacenet:
-                self.optimizer = optim.SGD([
-                    {'params': paras_wo_bn[:-1], 'weight_decay': 4e-5},
-                    {'params': [paras_wo_bn[-1]] + [self.head.kernel], 'weight_decay': 4e-4},
-                    {'params': paras_only_bn}
-                ], lr=conf.lr, momentum=conf.momentum)
+                self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
+                # download the default weigth
+                file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
+                weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
+                if os.path.isfile(weight_path) == False:
+                    print('from FaceRecognizer: download defualt weight started')
+                    os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
+                    download_weight(link='https://drive.google.com/uc?export=download&id=1W9nM7LE6zUKQ4tncL6OnBn-aXNyiRPNH', file_name=file_name)
+                    os.rename(file_name, weight_path)
+
+                self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
+                print('from FaceRecognizer: MobileFaceNet Loaded')
             else:
-                self.optimizer = optim.SGD([
-                    {'params': paras_wo_bn + [self.head.kernel], 'weight_decay': 5e-4},
-                    {'params': paras_only_bn}
-                ], lr=conf.lr, momentum=conf.momentum)
-            print(self.optimizer)
-            print('optimizers generated')
-            self.board_loss_every = len(self.loader) // 100
-            self.evaluate_every = len(self.loader) // 10
-            self.save_every = len(self.loader) // 5
-            self.agedb_30, self.cfp_fp, self.lfw, self.agedb_30_issame, self.cfp_fp_issame, self.lfw_issame = get_val_data(self.loader.dataset.root.parent)
-        else:
-            self.threshold = conf.threshold
-            try:
-                if conf.use_mobilfacenet:
-                    # download the default weigth
-                    file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
-                    weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
-                    if os.path.isfile(weight_path) == False:
-                        print('from FaceRecognizer: download defualt weight started')
-                        os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                        download_weight(link='https://drive.google.com/uc?export=download&id=1W9nM7LE6zUKQ4tncL6OnBn-aXNyiRPNH', file_name=file_name)
-                        os.rename(file_name, weight_path)
-                    
-                    self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
-                    print('from FaceRecognizer: MobileFaceNet Loaded')
-                else:
-                    # download the default weigth
-                    file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ir_se50.pth')
-                    weight_path = os.path.join(os.path.dirname(file_name), 'weights/ir_se50.pth')
-                    if os.path.isfile(weight_path) == False:
-                        print('from FaceRecognizer: download ir_se50 weights started')
-                        os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                        download_weight(link='https://drive.google.com/uc?export=download&id=1mweSiyaAwFd9h-mpuxkJ5sYip0Zeqppt', file_name=file_name)
-                        os.rename(file_name, weight_path)
+                self.model = Backbone(conf.net_depth, conf.drop_ratio, conf.net_mode).to(conf.device)
+                # download the default weigth
+                file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'ir_se50.pth')
+                weight_path = os.path.join(os.path.dirname(file_name), 'weights/ir_se50.pth')
+                if os.path.isfile(weight_path) == False:
+                    print('from FaceRecognizer: download ir_se50 weights started')
+                    os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
+                    download_weight(link='https://drive.google.com/uc?export=download&id=1mweSiyaAwFd9h-mpuxkJ5sYip0Zeqppt', file_name=file_name)
+                    os.rename(file_name, weight_path)
 
-                    self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
-                    print('from FaceRecognizer: ir_se50 Loaded')
-                    
-            except IOError as e:
-                exit(f'from FaceRecognizer Exit: the weight does not exist,'
-                     f' \n download and putting up in "{conf.work_path}" folder \n {e}')
+                self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
+                print('from FaceRecognizer: ir_se50 Loaded')
+        except IOError as e:
+            exit(f'from FaceRecognizer Exit: the weight does not exist,'
+                 f' \n download and putting up in "{conf.work_path}" folder \n {e}')
+            
         self.model.eval()
-
-
-    def save_state(self, conf, accuracy, to_save_folder=False, extra=None, model_only=False):
-        if to_save_folder:
-            save_path = conf.save_path
-        else:
-            save_path = conf.model_path
-        torch.save(
-            self.model.state_dict(), save_path('model_{}_accuracy:{}_step:{}_{}.pth'.format(get_time(), accuracy, self.step, extra)))
-        if not model_only:
-            torch.save(
-                self.head.state_dict(), save_path /
-                                        ('head_{}_accuracy:{}_step:{}_{}.pth'.format(get_time(), accuracy, self.step, extra)))
-            torch.save(
-                self.optimizer.state_dict(), save_path /
-                                             ('optimizer_{}_accuracy:{}_step:{}_{}.pth'.format(get_time(), accuracy,self.step, extra)))
 
 
     def evaluate(self, conf, carray, issame, nrof_folds=5, tta=False):
@@ -128,58 +82,6 @@ class FaceRecognizer:
         roc_curve = Image.open(buf)
         roc_curve_tensor = trans.ToTensor()(roc_curve)
         return accuracy.mean(), best_thresholds.mean(), roc_curve_tensor
-
-    def find_lr(self, conf, init_value=1e-8, final_value=10., beta=0.98, bloding_scale=3., num=None):
-        if not num:
-            num = len(self.loader)
-        mult = (final_value / init_value) ** (1 / num)
-        lr = init_value
-        for params in self.optimizer.param_groups:
-            params['lr'] = lr
-        self.model.train()
-        avg_loss = 0.
-        best_loss = 0.
-        batch_num = 0
-        losses = []
-        log_lrs = []
-        for i, (imgs, labels) in tqdm(enumerate(self.loader), total=num):
-
-            imgs = imgs.to(conf.device)
-            labels = labels.to(conf.device)
-            batch_num += 1
-
-            self.optimizer.zero_grad()
-
-            embeddings = self.model(imgs)
-            thetas = self.head(embeddings, labels)
-            loss = conf.ce_loss(thetas, labels)
-
-            # Compute the smoothed loss
-            avg_loss = beta * avg_loss + (1 - beta) * loss.item()
-            smoothed_loss = avg_loss / (1 - beta ** batch_num)
-            # Stop if the loss is exploding
-            if batch_num > 1 and smoothed_loss > bloding_scale * best_loss:
-                print('exited with best_loss at {}'.format(best_loss))
-                plt.plot(log_lrs[10:-5], losses[10:-5])
-                return log_lrs, losses
-            # Record the best loss
-            if smoothed_loss < best_loss or batch_num == 1:
-                best_loss = smoothed_loss
-            # Store the values
-            losses.append(smoothed_loss)
-            log_lrs.append(math.log10(lr))
-            # Do the SGD step
-            # Update the lr for the next step
-
-            loss.backward()
-            self.optimizer.step()
-
-            lr *= mult
-            for params in self.optimizer.param_groups:
-                params['lr'] = lr
-            if batch_num > num:
-                plt.plot(log_lrs[10:-5], losses[10:-5])
-                return log_lrs, losses
 
 
     def train(self, conf, epochs):
@@ -249,7 +151,7 @@ class FaceRecognizer:
     
     def feature_extractor(self, faces, tta=False):
         """
-        faces : list of PIL Image
+        faces : stack of torch.tensors
         tta : test time augmentation (hfilp, that's all)
         """
         faces = faces_preprocessing(faces, self.device)
