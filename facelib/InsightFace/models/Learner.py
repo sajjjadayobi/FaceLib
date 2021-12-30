@@ -19,7 +19,7 @@ plt.switch_backend('agg')
 class FaceRecognizer:
 
     def __init__(self, conf, inference=True):
-
+        self.device = conf.device
         if conf.use_mobilfacenet:
             self.model = MobileFaceNet(conf.embedding_size).to(conf.device)
         else:
@@ -216,14 +216,14 @@ class FaceRecognizer:
             params['lr'] /= 10
         print(self.optimizer)
 
-    def infer(self, conf, faces, target_embs, tta=False):
+    def infer(self, faces, target_embs, tta=False):
         """
         faces : list of PIL Image
         target_embs : [n, 512] computed embeddings of faces in facebank
         names : recorded names of faces in facebank
         tta : test time augmentation (hfilp, that's all)
         """
-        faces = faces_preprocessing(faces, conf.device)
+        faces = faces_preprocessing(faces, self.device)
         if tta:
             faces_emb = self.model(faces)
             hflip_emb = self.model(faces.flip(-1))  # image horizontal flip
@@ -237,12 +237,12 @@ class FaceRecognizer:
         min_idx[minimum > self.threshold] = -1  # if no match, set idx to -1
         return min_idx, minimum
     
-    def feature_extractor(self, faces, device='cpu', tta=False):
+    def feature_extractor(self, faces, tta=False):
         """
         faces : list of PIL Image
         tta : test time augmentation (hfilp, that's all)
         """
-        faces = faces_preprocessing(faces, device)
+        faces = faces_preprocessing(faces, self.device)
         if tta:
             faces_emb = self.model(faces)
             hflip_emb = self.model(faces.flip(-1))  # horizontal flip
