@@ -235,3 +235,16 @@ class FaceRecognizer:
         minimum, min_idx = torch.min(dist, dim=1)
         min_idx[minimum > self.threshold] = -1  # if no match, set idx to -1
         return min_idx, minimum
+    
+    def feature_extractor(self, faces, conf, tta=False):
+        """
+        faces : list of PIL Image
+        tta : test time augmentation (hfilp, that's all)
+        """
+        faces = faces_preprocessing(faces, conf.device)
+        if tta:
+            faces_emb = self.model(faces)
+            hflip_emb = self.model(faces.flip(-1))  # horizontal flip
+            embs = l2_norm((faces_emb + hflip_emb)/2)  # take mean
+        else:
+            embs = self.model(faces)
