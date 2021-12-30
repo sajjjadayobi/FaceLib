@@ -75,7 +75,7 @@ class FaceRecognizer:
                         os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
                         download_weight(link='https://drive.google.com/uc?export=download&id=1mweSiyaAwFd9h-mpuxkJ5sYip0Zeqppt', file_name=file_name)
                         os.rename(file_name, weight_path)
-                    
+
                     self.model.load_state_dict(torch.load(weight_path, map_location=conf.device))
                     print('from FaceRecognizer: ir_se50 Loaded')
                     
