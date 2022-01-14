@@ -6,4 +6,6 @@ easydict>=1.7
 opencv_python>=3.4.0.12
 torchvision>=0.2.1
 scikit-image
+scikit-learn
+scipy
 requests
