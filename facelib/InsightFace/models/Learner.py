@@ -53,6 +53,7 @@ class FaceRecognizer:
                  f' \n download and putting up in "{conf.work_path}" folder \n {e}')
             
         self.model.eval()
+        torch.set_grad_enabled(False)
 
 
     def evaluate(self, conf, carray, issame, nrof_folds=5, tta=False):
