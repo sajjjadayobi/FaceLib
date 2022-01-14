@@ -14,7 +14,7 @@ from facelib.utils import download_weight
 class FaceDetector:
 
     def __init__(self, name='mobilenet', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"), confidence_threshold=0.99,
-                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112)):
+                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112), verbose=True):
         """
         RetinaFace Detector with 5points landmarks
         Args:
@@ -40,9 +40,10 @@ class FaceDetector:
             file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
             weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
             if os.path.isfile(weight_path) == False:
-                print('from FaceDetector: download defualt weight started')
                 os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                download_weight(link='https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1', file_name=file_name)
+                download_weight(link='https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1',
+                                file_name=file_name,
+                                verbose=verbose)
                 os.rename(file_name, weight_path)
              
         # setting for model
@@ -60,7 +61,6 @@ class FaceDetector:
         self.trans = transform.SimilarityTransform()
         self.out_size = face_size
         self.ref_pts = get_reference_facial_points(output_size=face_size)
-        print('from FaceDetector: weights loaded')
         return
 
     def preprocessor(self, img_raw):
