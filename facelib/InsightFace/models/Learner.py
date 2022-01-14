@@ -43,7 +43,7 @@ class FaceRecognizer:
                 weight_path = os.path.join(os.path.dirname(file_name), 'weights/ir_se50.pth')
                 if os.path.isfile(weight_path) == False:
                     os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                    download_weight(link='https://drive.google.com/uc?export=download&id=1mweSiyaAwFd9h-mpuxkJ5sYip0Zeqppt', 
+                    download_weight(link='https://www.dropbox.com/s/a570ucg6a5z22zf/ir_se50.pth?dl=1', 
                                     file_name=file_name,
                                    verbose=verbose
                                    )
