@@ -29,14 +29,6 @@ class FaceDetector:
         if name == 'mobilenet':
             cfg = cfg_mnet
             model = RetinaFace(cfg=cfg, phase='test')
-        elif name == 'resnet':
-            cfg = cfg_re50
-            model = RetinaFace(cfg=cfg, phase='test')
-        else:
-            exit('from FaceDetector Exit: model not support \n just(mobilenet, resnet)')
-
-        # download the default weigth
-        if weight_path is None:
             file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
             weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
             if os.path.isfile(weight_path) == False:
@@ -45,23 +37,37 @@ class FaceDetector:
                                 file_name=file_name,
                                 verbose=verbose)
                 os.rename(file_name, weight_path)
+        elif name == 'resnet':
+            cfg = cfg_re50
+            model = RetinaFace(cfg=cfg, phase='test')
+            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resnet50.pth')
+            weight_path = os.path.join(os.path.dirname(file_name), 'weights/resnet50.pth')
+            if os.path.isfile(weight_path) == False:
+                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
+                download_weight(link='https://www.dropbox.com/s/8sxkgc9voel6ost/resnet50.pth?dl=1',
+                                file_name=file_name,
+                                verbose=verbose)
+                os.rename(file_name, weight_path)
+        else:
+            exit('FaceDetector Exit: model name can be either mobilenet or resnet')
+
              
-        # setting for model
+        # settings for model
         model.load_state_dict(torch.load(weight_path, map_location=device))
         model.to(device).eval()
         self.model = model
         self.device = device
         self.cfg = cfg
-        # setting for face detection
+        # settings for face detection
         self.thresh = confidence_threshold
         self.top_k = top_k
         self.nms_thresh = nms_threshold
         self.keep_top_k = keep_top_k
-        # setting for face align
+        # settings for face alignment
         self.trans = transform.SimilarityTransform()
         self.out_size = face_size
         self.ref_pts = get_reference_facial_points(output_size=face_size)
-        return
+
 
     def preprocessor(self, img_raw):
         img = torch.tensor(img_raw, dtype=torch.float32).to(self.device)
