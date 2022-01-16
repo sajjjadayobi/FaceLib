@@ -134,7 +134,7 @@ class FaceDetector:
 
         return boxes, scores, landmarks
     
-        def detect_align(self, img):
+    def detect_align(self, img):
         """
         get a image from ndarray, detect faces in image,
         cropped face and align face
@@ -175,7 +175,7 @@ class FaceDetector:
 
     def detect_single_align(self, img):
         """
-        get a image from ndarray, detect faces in image,
+        get a image from ndarray, detect only one in image,
         cropped face and align face
         Args:
             img: original image from cv2(BGR) or PIL(RGB)
