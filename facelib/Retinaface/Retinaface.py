@@ -133,8 +133,8 @@ class FaceDetector:
         boxes = boxes[:self.keep_top_k, :]
 
         return boxes, scores, landmarks
-
-    def detect_align(self, img):
+    
+        def detect_align(self, img):
         """
         get a image from ndarray, detect faces in image,
         cropped face and align face
@@ -156,6 +156,45 @@ class FaceDetector:
 
         warped = []
         for src_pts in landmarks:
+            if max(src_pts.shape) < 3 or min(src_pts.shape) != 2:
+                raise FaceWarpException('facial_pts.shape must be (K,2) or (2,K) and K>2')
+
+            if src_pts.shape[0] == 2:
+                src_pts = src_pts.T
+
+            if src_pts.shape != self.ref_pts.shape:
+                raise FaceWarpException('facial_pts and reference_pts must have the same shape')
+
+            self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
+            face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
+            warped.append(face_img)
+
+        faces = torch.tensor(np.array(warped)).to(self.device)
+        return faces, boxes, scores, landmarks
+    
+
+    def detect_single_align(self, img):
+        """
+        get a image from ndarray, detect faces in image,
+        cropped face and align face
+        Args:
+            img: original image from cv2(BGR) or PIL(RGB)
+        Notes:
+            coordinate is corresponding to original image
+            and type of return image is corresponding to input(cv2, PIL)
+
+        Returns:
+            faces:
+                a tensor(n, 112, 112, 3) of faces that aligned
+            boxes:
+                face bounding box for each face
+            landmarks:
+                face landmarks for each face
+        """
+        boxes, scores, landmarks = self.detect_faces(img)
+
+        warped = []
+        for src_pts in landmarks[0]:
             if max(src_pts.shape) < 3 or min(src_pts.shape) != 2:
                 raise FaceWarpException('facial_pts.shape must be (K,2) or (2,K) and K>2')
 
