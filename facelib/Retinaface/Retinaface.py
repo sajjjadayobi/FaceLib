@@ -192,21 +192,10 @@ class FaceDetector:
                 face landmarks for each face
         """
         boxes, scores, landmarks = self.detect_faces(img)
+        src_pts = landmarks[0]
+        if src_pts.shape[0] == 2:
+            src_pts = src_pts.T
 
-        warped = []
-        for src_pts in landmarks[0]:
-            if max(src_pts.shape) < 3 or min(src_pts.shape) != 2:
-                raise FaceWarpException('facial_pts.shape must be (K,2) or (2,K) and K>2')
-
-            if src_pts.shape[0] == 2:
-                src_pts = src_pts.T
-
-            if src_pts.shape != self.ref_pts.shape:
-                raise FaceWarpException('facial_pts and reference_pts must have the same shape')
-
-            self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
-            face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
-            warped.append(face_img)
-
-        faces = torch.tensor(np.array(warped)).to(self.device)
-        return faces, boxes, scores, landmarks
+        self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
+        face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
+        return torch.tensor(face_img).to(self.device)
