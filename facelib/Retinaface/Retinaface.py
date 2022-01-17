@@ -169,47 +169,27 @@ class FaceDetector:
         return faces, boxes, scores, landmarks
     
 
-    def detect_single_align(self, img):
-        """
-        get a image from ndarray, detect only one in image,
-        cropped face and align face
-        Args:
-            img: original image from cv2(BGR) or PIL(RGB)
-        Notes:
-            coordinate is corresponding to original image
-            and type of return image is corresponding to input(cv2, PIL)
-
-        Returns:
-            faces:
-                a tensor(112, 112, 3) of faces that aligned
-        """
-        img, scale = self.preprocessor(img)
-        # tic = time.time()
+    def detect_single_align(self, raw_img, align=False):
+        img, scale = self.preprocessor(raw_img)
         with torch.no_grad():
-            loc, conf, landmarks = self.model(img)  # forward pass
-            # print('net forward time: {:.4f}'.format(time.time() - tic))
+            loc, conf, landmarks = self.model(img)
 
-        priors = prior_box(self.cfg, image_size=img.shape[2:]).to(self.device)
+        priors = prior_box(self.cfg, image_size=img.shape[2:])
         boxes = decode(loc.data.squeeze(0), priors, self.cfg['variance'])
         boxes = boxes * scale
         scores = conf.squeeze(0)[:, 1]
         landmarks = decode_landmark(landmarks.squeeze(0), priors, self.cfg['variance'])
         scale1 = torch.Tensor([img.shape[3], img.shape[2], img.shape[3], img.shape[2],
-                               img.shape[3], img.shape[2], img.shape[3], img.shape[2],
-                               img.shape[3], img.shape[2]]).to(self.device)
+                                img.shape[3], img.shape[2], img.shape[3], img.shape[2],
+                                img.shape[3], img.shape[2]])
         landmarks = landmarks * scale1
+        idx = scores.argsort(dim=0, descending=True)[0].item()   
 
-        # ignore low scores
-        index = torch.where(scores > self.thresh)[0]
-        landmarks = landmarks[index]
-        scores = scores[index]
-
-        # keep top-K before NMS
-        idx = scores.argsort(dim=0, descending=True)[0]    
-        src_pts = landmarks[idx]
-        if src_pts.shape[0] == 2:
-            src_pts = src_pts.T
-
-        self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
-        face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)
-        return torch.tensor(face_img).to(self.device)
+        if align == False:
+            box = boxes[idx].int()
+            return raw_img[box[1]: box[3], box[0]: box[2]]
+        else:
+            src_pts = landmarks[idx]
+            self.trans.estimate(src_pts.cpu().numpy().reshape(5, 2), self.ref_pts)
+            face_img = cv2.warpAffine(raw_img, self.trans.params[0:2, :], self.out_size)
+            return face_img
