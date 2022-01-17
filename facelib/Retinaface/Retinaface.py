@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from skimage import transform
 
-from .utils.alignment import get_reference_facial_points, FaceWarpException
+from .utils.alignment import get_reference_facial_points, FaceWarpException, alignment
 from .utils.box_utils import decode, decode_landmark, prior_box, nms
 from .utils.config import cfg_mnet, cfg_re50
 from .models.retinaface import RetinaFace
@@ -169,27 +169,13 @@ class FaceDetector:
         return faces, boxes, scores, landmarks
     
 
-    def detect_single_align(self, raw_img, align=False):
-        img, scale = self.preprocessor(raw_img)
-        with torch.no_grad():
-            loc, conf, landmarks = self.model(img)
-
-        priors = prior_box(self.cfg, image_size=img.shape[2:])
-        boxes = decode(loc.data.squeeze(0), priors, self.cfg['variance'])
-        boxes = boxes * scale
-        scores = conf.squeeze(0)[:, 1]
-        landmarks = decode_landmark(landmarks.squeeze(0), priors, self.cfg['variance'])
-        scale1 = torch.Tensor([img.shape[3], img.shape[2], img.shape[3], img.shape[2],
-                                img.shape[3], img.shape[2], img.shape[3], img.shape[2],
-                                img.shape[3], img.shape[2]])
-        landmarks = landmarks * scale1
-        idx = scores.argsort(dim=0, descending=True)[0].item()   
-
-        if align == False:
-            box = boxes[idx].int()
-            return raw_img[box[1]: box[3], box[0]: box[2]]
+    def detect(self, img, align=False):
+        boxes, scores, landmarks = self.detect_faces(img)
+        box = boxes[0].int()
+        face = img[box[1]: box[3], box[0]: box[2]]
+        face = cv2.resize(face, self.out_size)
+        if align:
+            landmark = landmarks[0].int()[:3].numpy()
+            return alignment(face, *landmark)
         else:
-            src_pts = landmarks[idx]
-            self.trans.estimate(src_pts.cpu().numpy().reshape(5, 2), self.ref_pts)
-            face_img = cv2.warpAffine(raw_img, self.trans.params[0:2, :], self.out_size)
-            return face_img
+            return face
