@@ -147,10 +147,6 @@ class FaceDetector:
         Returns:
             faces:
                 a tensor(n, 112, 112, 3) of faces that aligned
-            boxes:
-                face bounding box for each face
-            landmarks:
-                face landmarks for each face
         """
         boxes, scores, landmarks = self.detect_faces(img)
 
@@ -185,13 +181,9 @@ class FaceDetector:
 
         Returns:
             faces:
-                a tensor(n, 112, 112, 3) of faces that aligned
-            boxes:
-                face bounding box for each face
-            landmarks:
-                face landmarks for each face
+                a tensor(112, 112, 3) of faces that aligned
         """
-        img, scale = self.preprocessor(img_raw)
+        img, scale = self.preprocessor(img)
         # tic = time.time()
         with torch.no_grad():
             loc, conf, landmarks = self.model(img)  # forward pass
