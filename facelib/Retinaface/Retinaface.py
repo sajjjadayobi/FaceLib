@@ -191,8 +191,30 @@ class FaceDetector:
             landmarks:
                 face landmarks for each face
         """
-        boxes, scores, landmarks = self.detect_faces(img)
-        src_pts = landmarks[0]
+        img, scale = self.preprocessor(img_raw)
+        # tic = time.time()
+        with torch.no_grad():
+            loc, conf, landmarks = self.model(img)  # forward pass
+            # print('net forward time: {:.4f}'.format(time.time() - tic))
+
+        priors = prior_box(self.cfg, image_size=img.shape[2:]).to(self.device)
+        boxes = decode(loc.data.squeeze(0), priors, self.cfg['variance'])
+        boxes = boxes * scale
+        scores = conf.squeeze(0)[:, 1]
+        landmarks = decode_landmark(landmarks.squeeze(0), priors, self.cfg['variance'])
+        scale1 = torch.Tensor([img.shape[3], img.shape[2], img.shape[3], img.shape[2],
+                               img.shape[3], img.shape[2], img.shape[3], img.shape[2],
+                               img.shape[3], img.shape[2]]).to(self.device)
+        landmarks = landmarks * scale1
+
+        # ignore low scores
+        index = torch.where(scores > self.thresh)[0]
+        landmarks = landmarks[index]
+        scores = scores[index]
+
+        # keep top-K before NMS
+        idx = scores.argsort(dim=0, descending=True)[0]    
+        src_pts = landmarks[idx]
         if src_pts.shape[0] == 2:
             src_pts = src_pts.T
 
