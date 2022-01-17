@@ -14,7 +14,7 @@ from facelib.utils import download_weight
 class FaceDetector:
 
     def __init__(self, name='mobilenet', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"), confidence_threshold=0.99,
-                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112), verbose=True):
+                 top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112), crop_size=(96, 112), verbose=True):
         """
         RetinaFace Detector with 5points landmarks
         Args:
@@ -66,7 +66,7 @@ class FaceDetector:
         # settings for face alignment
         self.trans = transform.SimilarityTransform()
         self.out_size = face_size
-        self.ref_pts = get_reference_facial_points(output_size=face_size)
+        self.ref_pts = get_reference_facial_points(output_size=face_size, crop_size=crop_size)
 
 
     def preprocessor(self, img_raw):
