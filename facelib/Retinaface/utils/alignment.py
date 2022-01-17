@@ -6,6 +6,7 @@ Created on Mon Apr 1 15:43:29 2020
 import cv2
 import math
 import numpy as np
+from PIL import Image
 from skimage import transform as trans
 
 # reference facial points, a list of coordinates (x,y)
@@ -17,19 +18,16 @@ REFERENCE_FACIAL_POINTS = [
     [62.72990036, 87]
 ]
 
-DEFAULT_CROP_SIZE = (96, 112)
-
-
 class FaceWarpException(Exception):
     def __str__(self):
         return 'In File {}:{}'.format(
             __file__, super.__str__(self))
 
 
-def get_reference_facial_points(output_size=(112, 112)):
+def get_reference_facial_points(output_size=(112, 112), crop_size=(96, 112)):
 
     tmp_5pts = np.array(REFERENCE_FACIAL_POINTS)
-    tmp_crop_size = np.array(DEFAULT_CROP_SIZE)
+    tmp_crop_size = np.array(crop_size)
 
     # size_diff = max(tmp_crop_size) - tmp_crop_size
     # tmp_5pts += size_diff / 2
