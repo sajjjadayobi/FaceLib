@@ -11,12 +11,13 @@ from skimage import transform as trans
 
 # reference facial points, a list of coordinates (x,y)
 REFERENCE_FACIAL_POINTS = [
-    [30.29459953, 51.69630051],
-    [65.53179932, 51.50139999],
-    [48.02519989, 71.73660278],
-    [33.54930115, 87],
-    [62.72990036, 87]
+    [30.29459953,  51.69630051],
+    [65.53179932,  51.50139999],
+    [48.02519989,  71.73660278],
+    [33.54930115,  92.3655014],
+    [62.72990036,  92.20410156]
 ]
+
 
 class FaceWarpException(Exception):
     def __str__(self):
