@@ -46,7 +46,7 @@ class WebcamVerify:
                 raise Exception('the camera not recognized: change camera_index param to ' + str(0 if camera_index == 1 else 1))
             faces, boxes, scores, landmarks = self.detector.detect_align(frame)
             if len(faces.shape) > 1:
-                results, score = self.recognizer.infer(self.conf, faces, self.targets, tta=self.tta)
+                results, score = self.recognizer.infer(faces, self.targets, tta=self.tta)
                 for idx, bbox in enumerate(boxes):
                     special_draw(frame, bbox, landmarks[idx], self.names[results[idx] + 1], score[idx])
             cv2.imshow('face Capture', frame)
