@@ -1,6 +1,6 @@
 # [FaceLib](https://github.com/sajjjadayobi/FaceLib): Face Analysis
 Used for face detection, facial expression, AgeGender estimation and recognition with PyTorch.
-- Instalation: `pip install git+https://github.com/sajjjadayobi/FaceLib.git`
+- Instalation: `pip install git+https://github.com/lissettecarlr/FaceLib`
 
 ## How to use:
 Check this [example_notebook](https://github.com/sajjjadayobi/FaceLib/blob/master/example_notebook.ipynb) or take a look at the following sections

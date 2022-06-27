@@ -6,16 +6,16 @@ with open("README.md", "r") as fh:
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
-   
+
 setuptools.setup(
-    name='facelib',
-    version='1.6',
-    author="Sajjad Ayoubi",
-    author_email="sadeveloper360@gmail.com",
+    name='Cfacelib',
+    version='0.1',
+    author="lissettecarlr",
+    author_email="lissettecarlr@gmail.com",
     description="Face Detection & Age Gender & Expression & Recognition",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/sajjjadayobi/FaceLib",
+    url="https://github.com/lissettecarlr/FaceLib",
     install_requires=required,
     packages=setuptools.find_packages(),
     classifiers=[
