@@ -1,11 +1,7 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-   long_description = fh.read()
-
 with open('requirements.txt') as f:
     required = f.read().splitlines()
-
 
 setuptools.setup(
     name='Cfacelib',
@@ -13,7 +9,7 @@ setuptools.setup(
     author="lissettecarlr",
     author_email="lissettecarlr@gmail.com",
     description="Face Detection & Age Gender & Expression & Recognition",
-    long_description=long_description,
+    long_description="Face Detection & Age Gender & Expression & Recognition",
     long_description_content_type="text/markdown",
     url="https://github.com/lissettecarlr/FaceLib",
     install_requires=required,
