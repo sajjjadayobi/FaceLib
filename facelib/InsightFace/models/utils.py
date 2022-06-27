@@ -112,11 +112,9 @@ def special_draw(img, box, landmarsk, name, score=100):
     """draw a bounding box on image"""
     color = (148, 133, 0)
     tl = round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1  # line thickness
-    c1, c2 = (box[0], box[1]), (box[2], box[3])
     c1 = (int(box[0]), int(box[1]))
     c2 = (int(box[2]), int(box[3]))
     # draw bounding box
-    #cv2.rectangle(img, c1, c2, color, thickness=tl)
     cv2.rectangle(img, c1, c2, color, thickness=tl)
     # draw landmark
     for land in landmarsk:

@@ -138,3 +138,7 @@ dmypy.json
 cython_debug/
 
 .idea
+
+# 测试图
+example/feng/
+example/qiu/
