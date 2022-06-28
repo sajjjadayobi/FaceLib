@@ -142,3 +142,4 @@ cython_debug/
 # 测试图
 example/feng/
 example/qiu/
+example/captureImg/
