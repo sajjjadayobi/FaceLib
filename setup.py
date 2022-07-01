@@ -4,13 +4,11 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setuptools.setup(
-    name='Cfacelib',
-    version='0.1',
+    name='facelib-kala',
+    version='1.0',
     author="lissettecarlr",
     author_email="lissettecarlr@gmail.com",
-    description="Face Detection & Age Gender & Expression & Recognition",
-    long_description="Face Detection & Age Gender & Expression & Recognition",
-    long_description_content_type="text/markdown",
+    description="Face Detection & Recognition",
     url="https://github.com/lissettecarlr/FaceLib",
     install_requires=required,
     packages=setuptools.find_packages(),

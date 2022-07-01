@@ -5,7 +5,7 @@ from multiprocessing import Process, Manager
 import torch
 from facelib import special_draw
 from facelib import FaceDetector
-
+from datetime import datetime
 
 def img_resize(img):
     """
@@ -40,20 +40,27 @@ def write(stack, cam, top: int) -> None:
 # 在缓冲栈中读取数据:
 def read(stack) -> None:
     print('Process to read: %s' % os.getpid())
+    lastTime = datetime.now()
+    faceImgNum = 0
     detector = FaceDetector(face_size=(224, 224), device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"))
     while True:
         if len(stack) != 0:
             value = stack.pop()
             # 对获取的视频帧分辨率重处理
             img_new = img_resize(value)
-
             faces, boxes, scores, landmarks = detector.detect_align(img_new)
             if len(faces.shape) > 1:
                 for idx, bbox in enumerate(boxes):
                     special_draw(img_new, bbox, landmarks[idx], name='face', score=scores[idx])
             # 显示处理后的视频帧
+            if((datetime.now() - lastTime).seconds > 10):
+                cv2.imwrite('./captureImg/'+str(faceImgNum)+'.jpg',img_new)
+                faceImgNum= faceImgNum+1
+                print("save face：" + str(faceImgNum))
+                lastTime = datetime.now()
+
             cv2.imshow("img", img_new)
-            # 将处理的视频帧存放在文件夹里
+
             # save_img(yolo_img)
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
