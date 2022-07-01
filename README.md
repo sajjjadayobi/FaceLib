@@ -35,8 +35,8 @@ pip install -r requirements.txt
 ### 人脸检测
 
 * 通过摄像头进行人脸检测：CameraFaceDetector.py
-* 通过摄像头，周期保存进行过人脸识别的帧：captureFace.py
+* 通过摄像头，周期保存进行过人脸检测的帧：captureFace.py
 
-### 人脸检测
-* 通过摄像头进行人脸检测：CameraFaceRecognition.py，运行前需要导入检测对象，方式在此文件中有说明。
+### 人脸识别
+* 通过摄像头进行人脸识别：CameraFaceRecognition.py，运行前需要导入检测对象，方式在此文件中有说明。
 * 通过传入图片，输出名字：FaceRecognition
