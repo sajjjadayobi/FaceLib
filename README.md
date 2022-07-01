@@ -29,3 +29,14 @@ python setup.py install
 ```
 pip install -r requirements.txt
 ```
+
+## 使用
+执行example中的程序
+### 人脸检测
+
+* 通过摄像头进行人脸检测：CameraFaceDetector.py
+* 通过摄像头，周期保存进行过人脸识别的帧：captureFace.py
+
+### 人脸检测
+* 通过摄像头进行人脸检测：CameraFaceRecognition.py，运行前需要导入检测对象，方式在此文件中有说明。
+* 通过传入图片，输出名字：FaceRecognition

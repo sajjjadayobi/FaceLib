@@ -1,3 +1,5 @@
+# 周期采集人脸检测的图像
+
 import os
 import cv2
 import gc

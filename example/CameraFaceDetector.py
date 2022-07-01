@@ -1,3 +1,5 @@
+# 使用摄像头进行人像检测
+
 from facelib import WebcamFaceDetector
 
 if __name__ == '__main__':
