@@ -143,3 +143,12 @@ cython_debug/
 example/feng/
 example/qiu/
 example/captureImg/
+
+# 模型
+independent/weights/mobilenet.pth
+independent/weights/resnet50.pth
+independent/weights/ir_se50.pth
+independent/weights/mobilenet_2.pth
+independent/faceData/
+independent/data/facebank/
+independent/out/

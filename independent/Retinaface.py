@@ -1,22 +1,15 @@
-import os
+# 独立检测
 import torch
-import cv2
-import numpy as np
+from utils import *
+from models.retinaface import RetinaFace
+import os, sys
 from skimage import transform
-
-from .utils.alignment import get_reference_facial_points, FaceWarpException, alignment
-from .utils.box_utils import decode, decode_landmark, prior_box, nms
-from .utils.config import cfg_mnet, cfg_re50
-from .models.retinaface import RetinaFace
-from facelib.utils import download_weight
-
+import cv2
 
 class FaceDetector:
 
     def __init__(self, name='mobilenet', weight_path=None, device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu"), confidence_threshold=0.99,
                  top_k=5000, nms_threshold=0.4, keep_top_k=750, face_size=(112, 112), crop_size=(96, 112), verbose=True):
-        
-        
         """
         RetinaFace Detector with 5points landmarks
         Args:
@@ -31,31 +24,45 @@ class FaceDetector:
         if name == 'mobilenet':
             cfg = cfg_mnet
             model = RetinaFace(cfg=cfg, phase='test')
-            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mobilenet.pth')
-            weight_path = os.path.join(os.path.dirname(file_name), 'weights/mobilenet.pth')
-            if os.path.isfile(weight_path) == False:
-                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                download_weight(link='https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1',
-                                file_name=file_name,
-                                verbose=verbose)
-                os.rename(file_name, weight_path)
+            if(weight_path == None):
+                file_name = os.path.dirname(os.path.realpath(sys.argv[0])) + "\\weights\\mobilenet.pth"
+                weight_path = os.path.dirname(os.path.realpath(sys.argv[0])) + "\\weights"
+            else:
+                file_name = weight_path + "\\mobilenet.pth"
+
+            #判断模型是否存在
+            isExists = os.path.exists(file_name)
+            if not isExists:
+                url = "https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1"
+                print("not found model {},please download to {}".format(file_name,url))
+                return
+            else:
+                print("load model from {}".format(file_name))
+
         elif name == 'resnet':
             cfg = cfg_re50
             model = RetinaFace(cfg=cfg, phase='test')
-            file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resnet50.pth')
-            weight_path = os.path.join(os.path.dirname(file_name), 'weights/resnet50.pth')
-            if os.path.isfile(weight_path) == False:
-                os.makedirs(os.path.split(weight_path)[0], exist_ok=True)
-                download_weight(link='https://www.dropbox.com/s/8sxkgc9voel6ost/resnet50.pth?dl=1',
-                                file_name=file_name,
-                                verbose=verbose)
-                os.rename(file_name, weight_path)
+
+            if(weight_path == None):
+                file_name = os.path.dirname(os.path.realpath(sys.argv[0])) + "\\weights\\resnet50.pth"
+                weight_path = os.path.dirname(os.path.realpath(sys.argv[0])) + "\\weights"
+            else:
+                file_name = weight_path + "\\resnet50.pth"
+
+            #判断模型是否存在
+            isExists = os.path.exists(file_name)
+            if not isExists:
+                url = "https://www.dropbox.com/s/8sxkgc9voel6ost/resnet50.pth?dl=1"
+                print("not found model {},please download to {}".format(file_name,url))
+                return
+            else:
+                print("load model from {}".format(file_name))
+
         else:
             exit('FaceDetector Exit: model name can be either mobilenet or resnet')
 
-             
         # settings for model
-        model.load_state_dict(torch.load(weight_path, map_location=device))
+        model.load_state_dict(torch.load(file_name, map_location=device))
         model.to(device).eval()
         self.model = model
         self.device = device
@@ -65,9 +72,10 @@ class FaceDetector:
         self.top_k = top_k
         self.nms_thresh = nms_threshold
         self.keep_top_k = keep_top_k
-        # settings for face alignment
+        # settings for face alignment 设置人脸对其
         self.trans = transform.SimilarityTransform()
         self.out_size = face_size
+        # 获取面部参考点
         self.ref_pts = get_reference_facial_points(output_size=face_size, crop_size=crop_size)
 
 
@@ -78,6 +86,7 @@ class FaceDetector:
         img = img.permute(2, 0, 1).unsqueeze(0)
         return img, scale
 
+    # 检测人脸
     def detect_faces(self, img_raw):
         """
         get a image from ndarray, detect faces in image
@@ -136,6 +145,8 @@ class FaceDetector:
 
         return boxes, scores, landmarks
     
+
+    #人脸对其，就是把头裁剪下来，变为固定尺寸，然后摆正
     def detect_align(self, img):
         """
         get a image from ndarray, detect faces in image,
@@ -155,13 +166,16 @@ class FaceDetector:
         warped = []
         for src_pts in landmarks:
             if max(src_pts.shape) < 3 or min(src_pts.shape) != 2:
-                raise FaceWarpException('facial_pts.shape must be (K,2) or (2,K) and K>2')
+                print('facial_pts.shape must be (K,2) or (2,K) and K>2')
+                return None
 
             if src_pts.shape[0] == 2:
                 src_pts = src_pts.T
 
             if src_pts.shape != self.ref_pts.shape:
-                raise FaceWarpException('facial_pts and reference_pts must have the same shape')
+                print('facial_pts.shape must be ', self.ref_pts.shape)
+                return None
+                
 
             self.trans.estimate(src_pts.cpu().numpy(), self.ref_pts)
             face_img = cv2.warpAffine(img, self.trans.params[0:2, :], self.out_size)

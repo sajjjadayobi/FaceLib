@@ -40,3 +40,59 @@ pip install -r requirements.txt
 ### 人脸识别
 * 通过摄像头进行人脸识别：CameraFaceRecognition.py，运行前需要导入检测对象，方式在此文件中有说明。
 * 通过传入图片，输出名字：FaceRecognition
+
+
+## 独立使用
+如果不想安装facelib包则打开independent文件夹来使用
+
+* 首先需要建立faceData文件夹，存放准备识别对象的图片，里面一个人一个文件夹
+* 下载模型存放到weights里面
+mobilenet.pth
+```
+https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1
+```
+resnet50.pth
+```
+https://www.dropbox.com/s/8sxkgc9voel6ost/resnet50.pth?dl=1
+```
+mobilenet_2.pth
+```
+https://drive.google.com/uc?export=download&id=15zP8BP-5IvWXWZoYTNdvUJUiBqZ1hxu1
+```
+* 生成识别库
+```
+python main.py -m update
+```
+输出
+```
+load model from D:\code\face\my\FaceLib\independent\weights\resnet50.pth
+load model from D:\code\face\my\FaceLib\independent\weights\mobilenet_2.pth
+2022-08-17 15:47:26.788 | INFO     | __main__:data_align:22 - data align start
+2022-08-17 15:47:26.788 | DEBUG    | __main__:data_align:25 - input_path使用默认路径D:\code\face\my\FaceLib\independent\faceData
+2022-08-17 15:47:26.803 | DEBUG    | __main__:data_align:28 - save_path使用默认路径D:\code\face\my\FaceLib\independent\data\facebank
+2022-08-17 15:47:26.803 | INFO     | __main__:data_align:33 - start join people feng
+2022-08-17 15:47:30.496 | INFO     | __main__:data_align:45 - feng img 1.jpg join success
+2022-08-17 15:47:33.968 | INFO     | __main__:data_align:45 - feng img 2.jpg join success
+2022-08-17 15:47:37.491 | INFO     | __main__:data_align:45 - feng img 3.jpg join success
+2022-08-17 15:47:37.491 | INFO     | __main__:data_align:33 - start join people qiu
+2022-08-17 15:47:40.980 | INFO     | __main__:data_align:45 - qiu img 1.jpg join success
+2022-08-17 15:47:44.532 | INFO     | __main__:data_align:45 - qiu img 2.jpg join success
+2022-08-17 15:47:48.083 | INFO     | __main__:data_align:45 - qiu img 3.jpg join success
+2022-08-17 15:47:51.710 | INFO     | __main__:data_align:45 - qiu img 4.jpg join success
+2022-08-17 15:47:51.726 | DEBUG    | __main__:update_facebank:55 - 识别库使用默认路径D:\code\face\my\FaceLib\independent\data\facebank
+2022-08-17 15:47:51.726 | INFO     | __main__:update_facebank:65 - start update facebank
+2022-08-17 15:47:51.726 | INFO     | __main__:update_facebank:70 - start join people feng
+2022-08-17 15:47:51.838 | INFO     | __main__:update_facebank:70 - start join people qiu
+2022-08-17 15:47:52.042 | INFO     | __main__:update_facebank:96 - update facebank success
+```
+* 识别，识别完成的图片会报错到out文件夹里
+```
+python main.py -m find -i ./faceData/2.jpg
+```
+输出
+```
+load model from D:\code\face\my\FaceLib\independent\weights\resnet50.pth
+load model from D:\code\face\my\FaceLib\independent\weights\mobilenet_2.pth
+2022-08-17 16:24:48.635 | INFO     | __main__:load_facebank:107 - load facebank success
+2022-08-17 16:24:52.396 | INFO     | __main__:main:158 - name=feng,score=0.42378219962120056
+```
