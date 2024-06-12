@@ -150,3 +150,5 @@ for idx, bbox in enumerate(boxes):
 ![image](https://github.com/sajjjadayobi/FaceLib/blob/master/facelib/imgs/face_rec.jpg)
 
 Reference: [InsightFace](https://github.com/TreB1eN/InsightFace_Pytorch)
+
+Made with Love ❤️.
